@@ -25,40 +25,40 @@ const Page = () => {
       <Navbar />
       <div className="flex flex-col items-center justify-center h-screen gradient-bg-services">
         <div className="flex flex-col items-center justify-center white-glassmorphism p-6">
-          <h1 className="text-white">Hello from Signup</h1>
+          <h1 className="text-black text-3xl py-5">Sign up</h1>
           <input
-            className="p-2 m-2 gradient-bg-footer rounded-md text-white"
+            className="p-2 m-2 gradient-bg-footer rounded-md border-2"
             type="text"
             value={user.email}
             onChange={(e) => setUser({ ...user, email: e.target.value })}
-            placeholder="email"
+            placeholder="Email"
           />
           <input
-            className="p-2 m-2 gradient-bg-footer rounded-md text-white"
+            className="p-2 m-2 gradient-bg-footer rounded-md border-2"
             type="text"
             value={user.username}
             onChange={(e) => setUser({ ...user, username: e.target.value })}
-            placeholder="username"
+            placeholder="Username"
           />
           <input
-            className="p-2 m-2 gradient-bg-footer rounded-md text-white"
+            className="p-2 m-2 gradient-bg-footer rounded-md border-2"
             type="text"
             value={user.mobile}
             onChange={(e) => setUser({ ...user, mobile: e.target.value })}
-            placeholder="mobile"
+            placeholder="Phone Number"
           />
           <input
-            className="p-2 m-2 gradient-bg-footer rounded-md text-white"
+            className="p-2 m-2 gradient-bg-footer rounded-md border-2"
             type="password"
             value={user.password}
             onChange={(e) => setUser({ ...user, password: e.target.value })}
-            placeholder="password"
+            placeholder="Password"
           />
           <div
-            className="p-2 m-2 bg-[#2952e3] rounded-md cursor-pointer hover:bg-[#2546bd]"
+            className="p-2 m-2 bg-red-500 text-white rounded-2xl px-20 mt-5 cursor-pointer hover:bg-red-400"
             onClick={onSignup}
           >
-            Signup
+            Sign up
           </div>
         </div>
       </div>

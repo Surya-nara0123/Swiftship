@@ -18,8 +18,10 @@ const NavBarItem = ({ title, classprops }) => (
     }}
   >
     {title == "My Cart" ? (
-      <AiOutlineShoppingCart className="mr-1" size={30}/>
-    ) : title}
+      <AiOutlineShoppingCart className="mr-1" size={30} />
+    ) : (
+      title
+    )}
   </li>
 );
 
@@ -30,7 +32,7 @@ const Navbar = () => {
     <nav className="fixed gradient-bg-welcome w-full flex md:justify-center justify-between items-center p-2">
       <div className="md:flex-[0.5] flex-initial justify-center items-center lg:ml-10">
         <img
-          src={"/SwiftShip-logos_white.png"}
+          src={"/SwiftShip-logos_black.png"}
           alt="logo"
           className="w-20 h-20 cursor-pointer rounded-full"
           onClick={() => {
@@ -38,12 +40,12 @@ const Navbar = () => {
           }}
         />
       </div>
-      <ul className="text-white md:flex hidden list-none flex-row justify-between items-center flex-initial ml-auto">
-        {["My Cart", "Services", "Contact Us"].map((item, index) => (
+      <ul className="text-black md:flex hidden list-none flex-row justify-between items-center flex-initial ml-auto">
+        {/* {["Services", "Contact Us"].map((item, index) => (
           <NavBarItem key={item + index} title={item} />
-        ))}
+        ))} */}
         <li
-          className="bg-[#A952e3] py-2 px-7 ml-4 mr-0 rounded-full cursor-pointer hover:bg-[#A546bd]"
+          className="text-black py-2 pl-4 rounded-full cursor-pointer hover:text-red-500"
           onClick={() => {
             window.location.href = "/signup";
           }}
@@ -51,13 +53,16 @@ const Navbar = () => {
           Signup
         </li>
         <li
-          className="bg-[#2952e3] py-2 px-7 mx-4 rounded-full cursor-pointer hover:bg-[#2546bd]"
+          className="text-black py-2 px-7 rounded-full cursor-pointer hover:text-red-500"
           onClick={() => {
             window.location.href = "/login";
           }}
         >
           Login
         </li>
+        {["My Cart"].map((item, index) => (
+          <NavBarItem key={item + index} title={item} />
+        ))}
       </ul>
       <div className="flex relative">
         {!toggleMenu && (
