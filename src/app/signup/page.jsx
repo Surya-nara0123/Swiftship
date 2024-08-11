@@ -14,8 +14,26 @@ const Page = () => {
   });
 
   const onSignup = async () => {
-    console.log(user);
-    const res = await axios.post("/api/signup", user);
+    // console.log(user);
+    const request = {
+      "name": user.username,
+      "email": user.email,
+      "mobile": Number(user.mobile),
+      "user_type": 1,
+      "password": user.password
+    };
+    const res = await fetch ("http://localhost:8080/createuser", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(request),
+    });
+    const body = await res.json();
+    if (res.status !== 200) {
+      console.log(body);
+      return;
+    }
     console.log("User created successfully");
     window.location.href = "/login";
   };

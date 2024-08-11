@@ -14,13 +14,19 @@ const Page = () => {
   });
 
   const onLogin = async () => {
-    console.log(user);
-    const res = await axios.post("/api/login", user);
-    console.log(res.data);
-    const res1 = await axios.post("/api/setcookie", {
-      username: user.username,
+    const request = {
+      name: user.username,
+      password: user.password,
+    };
+    const res = await fetch("http://localhost:8080/getuserbyusername", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(request),
     });
-    router.push("/dashboard");
+    console.log("logged in");
+    router.push("/profile");
   };
 
   return (

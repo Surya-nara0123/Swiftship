@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 const Welcome = () => {
@@ -70,6 +70,21 @@ const Welcome = () => {
       cleanupAgain();
     };
   }, []);
+
+  const [restaurants, setRestaurants] = useState([]);
+
+  const getRestaurants = async () => {
+    const response = await fetch("http://127.0.0.1:8080/getrestaurants");
+    // console.log(response);
+    const data = await response.json();
+    console.log(data);
+    setRestaurants(data["result"]);
+  };
+
+  useEffect(() => {
+    getRestaurants();
+  }, []);
+
 
   const handleItemClick = (name, description, price) => {
     setModalContent({ name, description, price });
@@ -165,41 +180,18 @@ const Welcome = () => {
               ref={shopsScrollContainerRef}
               className="flex overflow-x-auto space-x-2 p-4 mx-8 w-full"
             >
-              <div
-                className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4 cursor-pointer"
-                onClick={() => router.push("/menu")}
-              >
-                <div className="h-48 w-full bg-gray-300 rounded-lg"></div>
-                <p className="text-center mt-2">Shop 1</p>
-              </div>
-              <div
-                className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4 cursor-pointer"
-                onClick={() => router.push("/menu")}
-              >
-                <div className="h-48 w-full bg-gray-300 rounded-lg"></div>
-                <p className="text-center mt-2">Shop 2</p>
-              </div>
-              <div
-                className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4 cursor-pointer"
-                onClick={() => router.push("/menu")}
-              >
-                <div className="h-48 w-full bg-gray-300 rounded-lg"></div>
-                <p className="text-center mt-2">Shop 3</p>
-              </div>
-              <div
-                className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4 cursor-pointer"
-                onClick={() => router.push("/menu")}
-              >
-                <div className="h-48 w-full bg-gray-300 rounded-lg"></div>
-                <p className="text-center mt-2">Shop 4</p>
-              </div>
-              <div
-                className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4 cursor-pointer"
-                onClick={() => router.push("/menu")}
-              >
-                <div className="h-48 w-full bg-gray-300 rounded-lg"></div>
-                <p className="text-center mt-2">Shop 5</p>
-              </div>
+              {restaurants.map((restaurant) => (
+                <div
+                  className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4 cursor-pointer"
+                  onClick={() => router.push("/menu")}
+                >
+                  <div className="h-48 w-full bg-gray-300 rounded-lg"></div>
+                  <p className="text-center mt-2">{
+                    restaurant["Name"]
+                  }
+                  </p>
+                </div>
+              ))}
             </div>
             <button className="shopsScrollRight absolute right-0 bg-gray-500 text-white p-2 mr-5 mb-7 rounded-full focus:outline-none">
               &gt;
