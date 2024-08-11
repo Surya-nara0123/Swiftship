@@ -13,7 +13,7 @@ const NavBarItem = ({ title, classprops }) => (
       } else if (title === "Services") {
         window.location.href = "/services";
       } else if (title === "My Cart") {
-        toast("Please Login", { type: "warning" }, { duration: 50 });
+        window.location.href = "/cart";
       }
     }}
   >
@@ -60,9 +60,7 @@ const Navbar = () => {
         >
           Log in
         </li>
-        {["My Cart"].map((item, index) => (
-          <NavBarItem key={item + index} title={item} />
-        ))}
+        <NavBarItem key={"My Cart"} title={"My Cart"} href="/cart" />
       </ul>
       <div className="flex relative">
         {!toggleMenu && (

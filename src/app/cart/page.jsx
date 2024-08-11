@@ -133,7 +133,7 @@ export default function Page() {
       {userName.length > 0 ? <NavbarLogin item={userName} /> : <Navbar />}
       <div className="gradient-bg2 items-left justify-center">
         <div className="flex flex-col items-left justify-left min-h-screen pt-40 ml-10 pb-20">
-          <div className="text-3xl font-bold mb-4">Checkout</div>
+          <div className="text-3xl font-bold mb-4">Cart</div>
           <div className="w-full flex flex-col gap-2">
             {cart.length > 0 &&
               cart.map((item, index) => (
@@ -163,7 +163,7 @@ export default function Page() {
                       +
                     </Button>
                     <Button
-                      className="text-black bg-transparent hover:scale-125 hover:text-white p-1 rounded"
+                      className="text-black bg-transparent hover:scale-125 hover:text-whitep-1 rounded"
                       onClick={() => removeItem(index)}
                     >
                       X
