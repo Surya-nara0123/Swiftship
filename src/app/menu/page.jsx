@@ -115,7 +115,7 @@ export default function Page() {
         </button>
         <h2 className="text-xl font-bold mb-4">{item.name}</h2>
         <p className="mb-4">{item.description}</p>
-        <p className="mb-4">Price: ${item.price}</p>
+        <p className="mb-4">Price: ₹{item.price}</p>
         <div className="flex items-center mb-4">
           <button
             className="bg-gray-500 text-white p-2 rounded-l"
@@ -153,7 +153,7 @@ export default function Page() {
   };
 
   const handleAddToCart = (item) => {
-    console.log(`Added ${quantity} of ${item.name} to cart.`);
+    console.log(`Added ₹{quantity} of ₹{item.name} to cart.`);
     handleCloseModal();
   };
 

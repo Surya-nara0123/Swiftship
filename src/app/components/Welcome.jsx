@@ -106,7 +106,7 @@ const Welcome = () => {
                 <div
                   className="h-48 w-full bg-gray-300 rounded-lg cursor-pointer"
                   onClick={() =>
-                    handleItemClick("Item 1", "Description 1", "$10")
+                    handleItemClick("Item 1", "Description 1", "₹10")
                   }
                 ></div>
                 <p className="text-center mt-2">Description 1</p>
@@ -115,7 +115,7 @@ const Welcome = () => {
                 <div
                   className="h-48 w-full bg-gray-300 rounded-lg cursor-pointer"
                   onClick={() =>
-                    handleItemClick("Item 2", "Description 2", "$15")
+                    handleItemClick("Item 2", "Description 2", "₹15")
                   }
                 ></div>
                 <p className="text-center mt-2">Description 2</p>
@@ -124,7 +124,7 @@ const Welcome = () => {
                 <div
                   className="h-48 w-full bg-gray-300 rounded-lg cursor-pointer"
                   onClick={() =>
-                    handleItemClick("Item 3", "Description 3", "$20")
+                    handleItemClick("Item 3", "Description 3", "₹20")
                   }
                 ></div>
                 <p className="text-center mt-2">Description 3</p>
@@ -133,7 +133,7 @@ const Welcome = () => {
                 <div
                   className="h-48 w-full bg-gray-300 rounded-lg cursor-pointer"
                   onClick={() =>
-                    handleItemClick("Item 4", "Description 4", "$25")
+                    handleItemClick("Item 4", "Description 4", "₹25")
                   }
                 ></div>
                 <p className="text-center mt-2">Description 4</p>
@@ -142,7 +142,7 @@ const Welcome = () => {
                 <div
                   className="h-48 w-full bg-gray-300 rounded-lg cursor-pointer"
                   onClick={() =>
-                    handleItemClick("Item 5", "Description 5", "$30")
+                    handleItemClick("Item 5", "Description 5", "₹30")
                   }
                 ></div>
                 <p className="text-center mt-2">Description 5</p>
@@ -222,7 +222,7 @@ const Welcome = () => {
                 <div
                   className="h-48 w-full bg-gray-300 rounded-lg cursor-pointer"
                   onClick={() =>
-                    handleItemClick("Item 6", "Description 6", "$35")
+                    handleItemClick("Item 6", "Description 6", "₹35")
                   }
                 ></div>
                 <p className="text-center mt-2">Description 6</p>
@@ -231,7 +231,7 @@ const Welcome = () => {
                 <div
                   className="h-48 w-full bg-gray-300 rounded-lg cursor-pointer"
                   onClick={() =>
-                    handleItemClick("Item 7", "Description 7", "$40")
+                    handleItemClick("Item 7", "Description 7", "₹40")
                   }
                 ></div>
                 <p className="text-center mt-2">Description 7</p>
@@ -240,7 +240,7 @@ const Welcome = () => {
                 <div
                   className="h-48 w-full bg-gray-300 rounded-lg cursor-pointer"
                   onClick={() =>
-                    handleItemClick("Item 8", "Description 8", "$45")
+                    handleItemClick("Item 8", "Description 8", "₹45")
                   }
                 ></div>
                 <p className="text-center mt-2">Description 8</p>
@@ -249,7 +249,7 @@ const Welcome = () => {
                 <div
                   className="h-48 w-full bg-gray-300 rounded-lg cursor-pointer"
                   onClick={() =>
-                    handleItemClick("Item 9", "Description 9", "$50")
+                    handleItemClick("Item 9", "Description 9", "₹50")
                   }
                 ></div>
                 <p className="text-center mt-2">Description 9</p>
@@ -258,7 +258,7 @@ const Welcome = () => {
                 <div
                   className="h-48 w-full bg-gray-300 rounded-lg cursor-pointer"
                   onClick={() =>
-                    handleItemClick("Item 10", "Description 10", "$55")
+                    handleItemClick("Item 10", "Description 10", "₹55")
                   }
                 ></div>
                 <p className="text-center mt-2">Description 10</p>
@@ -313,7 +313,7 @@ const Welcome = () => {
                   }))
                 }
               >
-                &plus;
+                +
               </button>
             </div>
             <button className="mt-4 bg-blue-500 text-white p-2 rounded">
