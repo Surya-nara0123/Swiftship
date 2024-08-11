@@ -32,7 +32,7 @@ const Navbar = () => {
     <nav className="z-10 fixed gradient-bg-welcome w-full flex md:justify-center justify-between items-center p-2">
       <div className="md:flex-[0.5] flex-initial justify-center items-center lg:ml-10">
         <img
-          src={"/SwiftShip-logos_black.png"}
+          src={"/SwiftShip-logos_red.png"}
           alt="logo"
           className="w-20 h-20 cursor-pointer rounded-full"
           onClick={() => {

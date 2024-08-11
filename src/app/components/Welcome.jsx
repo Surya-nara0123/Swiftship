@@ -61,7 +61,7 @@ const Welcome = () => {
           <h1 className="text-2xl lg:text-3xl mt-10">Trending foods</h1>
           <div className="relative flex items-center mt-4">
             {/* Left Scroll Button */}
-            <button className="scrollLeft absolute left-0 z-10 bg-gray-500 text-white p-2 mb-7 rounded-full focus:outline-none">
+            <button className="scrollLeft absolute left-0 bg-gray-500 text-white p-2 mb-7 rounded-full focus:outline-none">
               &lt;
             </button>
 
@@ -98,7 +98,7 @@ const Welcome = () => {
             </div>
 
             {/* Right Scroll Button */}
-            <button className="scrollRight absolute right-0 z-10 bg-gray-500 text-white p-2 mr-5 mb-7 rounded-full focus:outline-none">
+            <button className="scrollRight absolute right-0 bg-gray-500 text-white p-2 mr-5 mb-7 rounded-full focus:outline-none">
               &gt;
             </button>
           </div>
@@ -107,7 +107,7 @@ const Welcome = () => {
           <h1 className="text-2xl lg:text-3xl mt-10">Order again</h1>
           <div className="relative flex items-center mt-4">
             {/* Left Scroll Button */}
-            <button className="scrollLeft absolute left-0 z-10 bg-gray-500 text-white p-2 mb-7 rounded-full focus:outline-none">
+            <button className="scrollLeft absolute left-0 bg-gray-500 text-white p-2 mb-7 rounded-full focus:outline-none">
               &lt;
             </button>
 
@@ -152,7 +152,7 @@ const Welcome = () => {
             </div>
 
             {/* Right Scroll Button */}
-            <button className="scrollRight absolute right-0 z-10 bg-gray-500 text-white p-2 mr-5 mb-7 rounded-full focus:outline-none">
+            <button className="scrollRight absolute right-0 bg-gray-500 text-white p-2 mr-5 mb-7 rounded-full focus:outline-none">
               &gt;
             </button>
           </div>
