@@ -29,7 +29,7 @@ const Navbar = () => {
   const [toggleMenu, setToggleMenu] = React.useState(false);
 
   return (
-    <nav className="fixed gradient-bg-welcome w-full flex md:justify-center justify-between items-center p-2">
+    <nav className="z-10 fixed gradient-bg-welcome w-full flex md:justify-center justify-between items-center p-2">
       <div className="md:flex-[0.5] flex-initial justify-center items-center lg:ml-10">
         <img
           src={"/SwiftShip-logos_black.png"}
@@ -50,7 +50,7 @@ const Navbar = () => {
             window.location.href = "/signup";
           }}
         >
-          Signup
+          Sign up
         </li>
         <li
           className="text-black py-2 px-7 rounded-full cursor-pointer hover:text-red-500"
@@ -58,7 +58,7 @@ const Navbar = () => {
             window.location.href = "/login";
           }}
         >
-          Login
+          Log in
         </li>
         {["My Cart"].map((item, index) => (
           <NavBarItem key={item + index} title={item} />
@@ -68,48 +68,53 @@ const Navbar = () => {
         {!toggleMenu && (
           <HiMenuAlt4
             fontSize={28}
-            className="text-white md:hidden cursor-pointer"
+            className="text-black md:hidden cursor-pointer"
             onClick={() => setToggleMenu(true)}
           />
         )}
         {toggleMenu && (
           <AiOutlineClose
             fontSize={28}
-            className="text-white md:hidden cursor-pointer"
+            className="text-black md:hidden cursor-pointer"
             onClick={() => setToggleMenu(false)}
           />
         )}
         {toggleMenu && (
           <ul
             className="z-10 fixed -top-0 -right-2 p-3 w-[70vw] h-screen shadow-2xl md:hidden list-none
-              flex flex-col justify-start items-center rounded-md blue-glassmorphism text-white animate-slide-in"
+              flex flex-col justify-start items-center rounded-md bg-red-400 text-white animate-slide-in"
           >
             <li className="text-xl w-full my-2">
               <AiOutlineClose onClick={() => setToggleMenu(false)} />
             </li>
-            {["My Cart", "Services", "Contact Us"].map((item, index) => (
+            {["My Cart"].map((item, index) => (
               <NavBarItem
                 key={item + index}
                 title={item}
                 classprops="my-2 text-lg"
               />
             ))}
-            <li
-              className="bg-[#A952e3] py-2 px-7 my-2 rounded-full cursor-pointer hover:bg-[#A546bd]"
-              onClick={() => {
-                window.location.href = "/signup";
-              }}
+            <a
+              className="py-2 rounded-full cursor-pointer hover:text-red-500 text-2xl"
+              href="/signup"
             >
-              Signup
-            </li>
+              Sign up
+            </a>
             <li
-              className="bg-[#2952e3] py-2 px-7 my-2 mr-1.5 rounded-full cursor-pointer hover:bg-[#2546bd]"
+              className="py-2 rounded-full cursor-pointer hover:text-red-500 text-2xl"
               onClick={() => {
                 window.location.href = "/login";
               }}
             >
               Login
             </li>
+            {["Services", "Contact Us"].map((item, index) => (
+              <NavBarItem
+                key={item + index}
+                title={item}
+                classprops="my-2 text-2xl"
+              />
+            ))}
           </ul>
         )}
       </div>
