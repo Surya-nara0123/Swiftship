@@ -1,10 +1,14 @@
 "use client";
 import React from "react";
 import { HiMenuAlt4 } from "react-icons/hi";
-import { AiOutlineClose, AiOutlineShoppingCart } from "react-icons/ai";
+import {
+  AiOutlineClose,
+  AiOutlineShoppingCart,
+  AiOutlineUser,
+} from "react-icons/ai";
 import { toast } from "sonner";
 
-const NavBarItem = ({ title, classprops }) => (
+const NavBarItem = ({ title, classprops, href }) => (
   <li
     className={`mx-4 cursor-pointer ${classprops}`}
     onClick={() => {
@@ -14,11 +18,15 @@ const NavBarItem = ({ title, classprops }) => (
         window.location.href = "/services";
       } else if (title === "My Cart") {
         window.location.href = "/cart";
+      } else if (title === "Account") {
+        window.location.href = "/profile";
       }
     }}
   >
-    {title == "My Cart" ? (
+    {title === "My Cart" ? (
       <AiOutlineShoppingCart className="mr-1" size={30} />
+    ) : title === "Account" ? (
+      <AiOutlineUser className="mr-1" size={30} />
     ) : (
       title
     )}
@@ -41,9 +49,6 @@ const Navbar = () => {
         />
       </div>
       <ul className="text-black md:flex hidden list-none flex-row justify-between items-center flex-initial ml-auto">
-        {/* {["Services", "Contact Us"].map((item, index) => (
-          <NavBarItem key={item + index} title={item} />
-        ))} */}
         <li
           className="text-black py-2 pl-4 rounded-full cursor-pointer hover:text-red-500"
           onClick={() => {
@@ -60,7 +65,8 @@ const Navbar = () => {
         >
           Log in
         </li>
-        <NavBarItem key={"My Cart"} title={"My Cart"} href="/cart" />
+        <NavBarItem key={"Account"} title={"Account"} />
+        <NavBarItem key={"My Cart"} title={"My Cart"} />
       </ul>
       <div className="flex relative">
         {!toggleMenu && (
@@ -85,13 +91,16 @@ const Navbar = () => {
             <li className="text-xl w-full my-2">
               <AiOutlineClose onClick={() => setToggleMenu(false)} />
             </li>
-            {["My Cart"].map((item, index) => (
-              <NavBarItem
-                key={item + index}
-                title={item}
-                classprops="my-2 text-lg"
-              />
-            ))}
+            <NavBarItem
+              key={"Account"}
+              title={"Account"}
+              classprops="my-2 text-lg"
+            />
+            <NavBarItem
+              key={"My Cart"}
+              title={"My Cart"}
+              classprops="my-2 text-lg"
+            />
             <a
               className="py-2 rounded-full cursor-pointer hover:text-red-500 text-2xl"
               href="/signup"
