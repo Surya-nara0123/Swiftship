@@ -3,13 +3,14 @@ import shortid from "shortid";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
+    const body = await request.json();
     const razorpay = new Razorpay({
         key_id: process.env.RAZORPAY_KEY,
         key_secret: process.env.RAZORPAY_SECRET
     });
 
     const payment_capture = 1;
-    const amount = 499;
+    const amount = body.amount;
     const currency = 'INR';
     const options = {
         amount: (amount * 100).toString(),

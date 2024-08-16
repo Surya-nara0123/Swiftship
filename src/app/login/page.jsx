@@ -3,6 +3,8 @@ import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "../components/Navbar.jsx";
 import axios from "axios";
+import { cookies } from "next/headers.js";
+import jwt from "jsonwebtoken";
 
 const Page = () => {
   const router = useRouter();
@@ -25,8 +27,21 @@ const Page = () => {
       },
       body: JSON.stringify(request),
     });
+    const body = await res.json();
+    if (res.status !== 200) {
+      console.log(body);
+      return;
+    }
+    if (body.length === 0) {
+      console.log("User not found");
+      return;
+    }
+    const userRes = body["user"];
+    const res1 = await axios.post("/api/login", {
+      user: userRes,
+    })
     console.log("logged in");
-    router.push("/profile");
+    router.push(`/profile/${userRes.id}`);
   };
 
   return (

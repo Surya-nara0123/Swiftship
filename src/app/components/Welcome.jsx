@@ -72,17 +72,35 @@ const Welcome = () => {
   }, []);
 
   const [restaurants, setRestaurants] = useState([]);
+  const [foodItems, setFoodItems] = useState([]);
 
   const getRestaurants = async () => {
     const response = await fetch("http://127.0.0.1:8080/getrestaurants");
     // console.log(response);
     const data = await response.json();
-    console.log(data);
+    // console.log(data["result"][0]);
     setRestaurants(data["result"]);
   };
 
+  const getFoodItems = async () => {
+    const response = await fetch("http://127.0.0.1:8080/getfooditems", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+    );
+    const body = await response.json();
+    // console.log(body["food_items"][0]);
+    // console.log(locationName(body["food_items"][0]));
+    setFoodItems(body["food_items"]);
+  }
+
   useEffect(() => {
     getRestaurants();
+    getFoodItems();
+    setWindowLoaded(true);
+    getCart();
   }, []);
 
 
@@ -100,221 +118,240 @@ const Welcome = () => {
       handleCloseModal();
     }
   };
+  const locationName = (foodItem) => {
+    for (let i = 0; i < restaurants.length; i++) {
+      if (restaurants[i]["UID"] == foodItem.RestuarantId) {
+        return restaurants[i]["Name"];
+      }
+    }
+  }
 
+  const [cart, setCart] = useState([]);
+  const getCart = async () => {
+    const cart = localStorage.getItem("cart");
+    if (cart) {
+      const data = await JSON.parse(cart);
+      // console.log(data);
+      setCart(data);
+    }
+  };
+
+  const [windowLoaded, setWindowLoaded] = useState(false);
   return (
-    <div className="gradient-bg2 items-left justify-center">
-      <div className="flex flex-col items-left justify-left min-h-screen pt-40 ml-10 pb-20">
-        <h1 className="text-3xl lg:text-5xl font-bold">Welcome!</h1>
+    <>
+      {windowLoaded && (
+        <div className="gradient-bg2 items-left justify-center">
+          <div className="flex flex-col items-left justify-left min-h-screen pt-40 ml-10 pb-20">
+            <h1 className="text-3xl lg:text-5xl font-bold">Welcome!</h1>
 
-        {/* Trending Foods */}
-        <div id="trending">
-          <h1 className="text-2xl lg:text-3xl mt-10">Trending foods</h1>
-          <div className="relative flex items-center mt-4">
-            <button className="trendingScrollLeft absolute left-0 bg-gray-500 text-white p-2 mb-7 rounded-full focus:outline-none">
-              &lt;
-            </button>
-            <div
-              ref={trendingScrollContainerRef}
-              className="flex overflow-x-auto space-x-2 p-4 mx-8 w-full"
-            >
-              <div className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4">
+            {/* Trending Foods */}
+            <div id="trending">
+              <h1 className="text-2xl lg:text-3xl mt-10">Specials Today</h1>
+              <div className="relative flex items-center mt-4">
+                <button className="trendingScrollLeft absolute left-0 bg-gray-500 text-white p-2 mb-7 rounded-full focus:outline-none">
+                  &lt;
+                </button>
                 <div
-                  className="h-48 w-full bg-gray-300 rounded-lg cursor-pointer"
-                  onClick={() =>
-                    handleItemClick("Item 1", "Description 1", "₹10")
-                  }
-                ></div>
-                <p className="text-center mt-2">Description 1</p>
-              </div>
-              <div className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4">
-                <div
-                  className="h-48 w-full bg-gray-300 rounded-lg cursor-pointer"
-                  onClick={() =>
-                    handleItemClick("Item 2", "Description 2", "₹15")
-                  }
-                ></div>
-                <p className="text-center mt-2">Description 2</p>
-              </div>
-              <div className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4">
-                <div
-                  className="h-48 w-full bg-gray-300 rounded-lg cursor-pointer"
-                  onClick={() =>
-                    handleItemClick("Item 3", "Description 3", "₹20")
-                  }
-                ></div>
-                <p className="text-center mt-2">Description 3</p>
-              </div>
-              <div className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4">
-                <div
-                  className="h-48 w-full bg-gray-300 rounded-lg cursor-pointer"
-                  onClick={() =>
-                    handleItemClick("Item 4", "Description 4", "₹25")
-                  }
-                ></div>
-                <p className="text-center mt-2">Description 4</p>
-              </div>
-              <div className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4">
-                <div
-                  className="h-48 w-full bg-gray-300 rounded-lg cursor-pointer"
-                  onClick={() =>
-                    handleItemClick("Item 5", "Description 5", "₹30")
-                  }
-                ></div>
-                <p className="text-center mt-2">Description 5</p>
-              </div>
-            </div>
-            <button className="trendingScrollRight absolute right-0 bg-gray-500 text-white p-2 mr-5 mb-7 rounded-full focus:outline-none">
-              &gt;
-            </button>
-          </div>
-        </div>
-
-        {/* Restaurants */}
-        <div id="shops">
-          <h1 className="text-2xl lg:text-3xl mt-10">Restaurants</h1>
-          <div className="relative flex items-center mt-4">
-            <button className="shopsScrollLeft absolute left-0 bg-gray-500 text-white p-2 mb-7 rounded-full focus:outline-none">
-              &lt;
-            </button>
-            <div
-              ref={shopsScrollContainerRef}
-              className="flex overflow-x-auto space-x-2 p-4 mx-8 w-full"
-            >
-              {restaurants.map((restaurant) => (
-                <div
-                  className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4 cursor-pointer"
-                  onClick={() => router.push("/menu")}
+                  ref={trendingScrollContainerRef}
+                  className="flex overflow-x-auto space-x-2 p-4 mx-8 w-full"
                 >
-                  <div className="h-48 w-full bg-gray-300 rounded-lg"></div>
-                  <p className="text-center mt-2">{
-                    restaurant["Name"]
-                  }
-                  </p>
+                  {foodItems.map((foodItem) =>
+                    foodItem.IsRegular == false && (
+                      <>
+                        <div className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4">
+                          <div
+                            className="h-48 w-full bg-gray-300 rounded-lg cursor-pointer text-black"
+                            onClick={() => {
+                              console.log(locationName(foodItem));
+                              handleItemClick(foodItem.Item, foodItem.Ingredients, foodItem.Price);
+                            }
+                            }
+                          >
+                            {locationName(foodItem)}
+                          </div>
+                          <p className="text-center mt-2">{foodItem.Item}</p>
+                        </div>
+                      </>
+                    ))}
                 </div>
-              ))}
+                <button className="trendingScrollRight absolute right-0 bg-gray-500 text-white p-2 mr-5 mb-7 rounded-full focus:outline-none">
+                  &gt;
+                </button>
+              </div>
             </div>
-            <button className="shopsScrollRight absolute right-0 bg-gray-500 text-white p-2 mr-5 mb-7 rounded-full focus:outline-none">
-              &gt;
-            </button>
-          </div>
-        </div>
 
-        {/* Order Again */}
-        <div id="again">
-          <h1 className="text-2xl lg:text-3xl mt-10">Order again</h1>
-          <div className="relative flex items-center mt-4">
-            <button className="againScrollLeft absolute left-0 bg-gray-500 text-white p-2 mb-7 rounded-full focus:outline-none">
-              &lt;
-            </button>
+            {/* Restaurants */}
+            <div id="shops">
+              <h1 className="text-2xl lg:text-3xl mt-10">Restaurants</h1>
+              <div className="relative flex items-center mt-4">
+                <button className="shopsScrollLeft absolute left-0 bg-gray-500 text-white p-2 mb-7 rounded-full focus:outline-none">
+                  &lt;
+                </button>
+                <div
+                  ref={shopsScrollContainerRef}
+                  className="flex overflow-x-auto space-x-2 p-4 mx-8 w-full"
+                >
+                  {restaurants.map((restaurant) => (
+                    <div
+                      className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4 cursor-pointer"
+                      onClick={() => router.push(`/menu/${restaurant["UID"]}`)}
+                    >
+                      <div className="h-48 w-full bg-gray-300 rounded-lg"></div>
+                      <p className="text-center mt-2">{
+                        restaurant["Name"]
+                      }
+                      </p>
+                    </div>
+                  ))}
+                </div>
+                <button className="shopsScrollRight absolute right-0 bg-gray-500 text-white p-2 mr-5 mb-7 rounded-full focus:outline-none">
+                  &gt;
+                </button>
+              </div>
+            </div>
+
+            {/* Order Again */}
+            <div id="again">
+              <h1 className="text-2xl lg:text-3xl mt-10">Order again</h1>
+              <div className="relative flex items-center mt-4">
+                <button className="againScrollLeft absolute left-0 bg-gray-500 text-white p-2 mb-7 rounded-full focus:outline-none">
+                  &lt;
+                </button>
+                <div
+                  ref={againScrollContainerRef}
+                  className="flex overflow-x-auto space-x-2 p-4 mx-8 w-full"
+                >
+                  <div className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4">
+                    <div
+                      className="h-48 w-full bg-gray-300 rounded-lg cursor-pointer"
+                      onClick={() =>
+                        handleItemClick("Item 6", "Description 6", "₹35")
+                      }
+                    ></div>
+                    <p className="text-center mt-2">Description 6</p>
+                  </div>
+                  <div className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4">
+                    <div
+                      className="h-48 w-full bg-gray-300 rounded-lg cursor-pointer"
+                      onClick={() =>
+                        handleItemClick("Item 7", "Description 7", "₹40")
+                      }
+                    ></div>
+                    <p className="text-center mt-2">Description 7</p>
+                  </div>
+                  <div className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4">
+                    <div
+                      className="h-48 w-full bg-gray-300 rounded-lg cursor-pointer"
+                      onClick={() =>
+                        handleItemClick("Item 8", "Description 8", "₹45")
+                      }
+                    ></div>
+                    <p className="text-center mt-2">Description 8</p>
+                  </div>
+                  <div className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4">
+                    <div
+                      className="h-48 w-full bg-gray-300 rounded-lg cursor-pointer"
+                      onClick={() =>
+                        handleItemClick("Item 9", "Description 9", "₹50")
+                      }
+                    ></div>
+                    <p className="text-center mt-2">Description 9</p>
+                  </div>
+                  <div className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4">
+                    <div
+                      className="h-48 w-full bg-gray-300 rounded-lg cursor-pointer"
+                      onClick={() =>
+                        handleItemClick("Item 10", "Description 10", "₹55")
+                      }
+                    ></div>
+                    <p className="text-center mt-2">Description 10</p>
+                  </div>
+                </div>
+                <button className="againScrollRight absolute right-0 bg-gray-500 text-white p-2 mr-5 mb-7 rounded-full focus:outline-none">
+                  &gt;
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {isModalOpen && (
             <div
-              ref={againScrollContainerRef}
-              className="flex overflow-x-auto space-x-2 p-4 mx-8 w-full"
+              className="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+              onClick={handleOutsideClick}
             >
-              <div className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4">
-                <div
-                  className="h-48 w-full bg-gray-300 rounded-lg cursor-pointer"
-                  onClick={() =>
-                    handleItemClick("Item 6", "Description 6", "₹35")
-                  }
-                ></div>
-                <p className="text-center mt-2">Description 6</p>
-              </div>
-              <div className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4">
-                <div
-                  className="h-48 w-full bg-gray-300 rounded-lg cursor-pointer"
-                  onClick={() =>
-                    handleItemClick("Item 7", "Description 7", "₹40")
-                  }
-                ></div>
-                <p className="text-center mt-2">Description 7</p>
-              </div>
-              <div className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4">
-                <div
-                  className="h-48 w-full bg-gray-300 rounded-lg cursor-pointer"
-                  onClick={() =>
-                    handleItemClick("Item 8", "Description 8", "₹45")
-                  }
-                ></div>
-                <p className="text-center mt-2">Description 8</p>
-              </div>
-              <div className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4">
-                <div
-                  className="h-48 w-full bg-gray-300 rounded-lg cursor-pointer"
-                  onClick={() =>
-                    handleItemClick("Item 9", "Description 9", "₹50")
-                  }
-                ></div>
-                <p className="text-center mt-2">Description 9</p>
-              </div>
-              <div className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4">
-                <div
-                  className="h-48 w-full bg-gray-300 rounded-lg cursor-pointer"
-                  onClick={() =>
-                    handleItemClick("Item 10", "Description 10", "₹55")
-                  }
-                ></div>
-                <p className="text-center mt-2">Description 10</p>
+              <div className="modal-content bg-white p-8 rounded-lg relative">
+                <button
+                  className="modal-close absolute top-2 right-2 text-2xl"
+                  onClick={handleCloseModal}
+                >
+                  &times;
+                </button>
+                <h2 className="text-2xl font-bold">{modalContent.name}</h2>
+                <p className="mt-2">{modalContent.description}</p>
+                <p className="mt-2 text-lg font-semibold">{modalContent.price}</p>
+                <div className="mt-4 flex items-center">
+                  <button
+                    className="bg-gray-200 p-2 rounded-l"
+                    onClick={() =>
+                      setModalContent((prev) => ({
+                        ...prev,
+                        quantity: Math.max(1, (prev.quantity || 1) - 1),
+                      }))
+                    }
+                  >
+                    &minus;
+                  </button>
+                  <input
+                    type="text"
+                    value={modalContent.quantity || 1}
+                    readOnly
+                    className="w-12 text-center"
+                  />
+                  <button
+                    className="bg-gray-200 p-2 rounded-r"
+                    onClick={() =>
+                      setModalContent((prev) => ({
+                        ...prev,
+                        quantity: (prev.quantity || 1) + 1,
+                      }))
+                    }
+                  >
+                    +
+                  </button>
+                </div>
+                <button className="mt-4 bg-blue-500 text-white p-2 rounded"
+                  onClick={
+                    () => {
+                      let newCart = cart;
+                      let found = false;
+                      // console.log(newCart, cart);
+                      for (let i = 0; i < newCart.length; i++) {
+                        if (newCart[i].name == modalContent.name) {
+                          newCart[i].count += modalContent.quantity;
+                          found = true;
+                          break;
+                        }
+                      }
+                      if (!found) {
+                        newCart.push({
+                          name: modalContent.name,
+                          count: modalContent.quantity,
+                        });
+                      }
+                      // console.log(newCart);
+                      localStorage.setItem("cart", JSON.stringify(newCart));
+                      setCart(newCart);
+                      setIsModalOpen(false);
+                    }
+                  }>
+                  Add to cart
+                </button>
               </div>
             </div>
-            <button className="againScrollRight absolute right-0 bg-gray-500 text-white p-2 mr-5 mb-7 rounded-full focus:outline-none">
-              &gt;
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {isModalOpen && (
-        <div
-          className="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
-          onClick={handleOutsideClick}
-        >
-          <div className="modal-content bg-white p-8 rounded-lg relative">
-            <button
-              className="modal-close absolute top-2 right-2 text-2xl"
-              onClick={handleCloseModal}
-            >
-              &times;
-            </button>
-            <h2 className="text-2xl font-bold">{modalContent.name}</h2>
-            <p className="mt-2">{modalContent.description}</p>
-            <p className="mt-2 text-lg font-semibold">{modalContent.price}</p>
-            <div className="mt-4 flex items-center">
-              <button
-                className="bg-gray-200 p-2 rounded-l"
-                onClick={() =>
-                  setModalContent((prev) => ({
-                    ...prev,
-                    quantity: Math.max(1, (prev.quantity || 1) - 1),
-                  }))
-                }
-              >
-                &minus;
-              </button>
-              <input
-                type="text"
-                value={modalContent.quantity || 1}
-                readOnly
-                className="w-12 text-center"
-              />
-              <button
-                className="bg-gray-200 p-2 rounded-r"
-                onClick={() =>
-                  setModalContent((prev) => ({
-                    ...prev,
-                    quantity: (prev.quantity || 1) + 1,
-                  }))
-                }
-              >
-                +
-              </button>
-            </div>
-            <button className="mt-4 bg-blue-500 text-white p-2 rounded">
-              Add to cart
-            </button>
-          </div>
+          )}
         </div>
       )}
-    </div>
+    </>
   );
 };
 

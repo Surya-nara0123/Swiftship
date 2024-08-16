@@ -9,15 +9,33 @@ export default function Page() {
   const [userName, setUserName] = useState("");
   const [cart, setCart] = useState([]);
   const [price, setPrice] = useState(0);
+  const [rest_id, setRest_id] = useState(0);
 
   const getUserName = async () => {
     try {
-      const res = await axios.get("/api/getcookies");
-      if (res.data.result.value) {
-        setUserName(res.data.result.value);
+      const res = await fetch("/api/getToken",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
+      );
+      if (res.status !== 200) {
+        setUserName("");
+        // console.log(res);
+        return;
       }
-    } catch (e) {
-      console.log(e);
+      const body = await res.json();
+      if (body["message"] == "Token Expired") {
+        // console.log("Token Expired");
+        setUserName("");
+        return;
+      }
+      // console.log(body);
+      setUserName(body["decodedToken"]["name"]);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -26,15 +44,33 @@ export default function Page() {
     getUserName();
   }, []);
 
+  useEffect(() => {
+    updatePricesCart(cart);
+  }, [cart]);
+
+  const updatePricesCart = async () => {
+    if (cart.length === 0) return;
+    const res = await fetch("http://localhost:8080/getFooditems")
+    const data = await res.json()
+    setRest_id(data["food_items"][0].RestuarantId)
+    console.log(data["food_items"])
+    for (let item of cart) {
+      for (let food_item of data["food_items"]) {
+        console.log(item.name, food_item.Item)
+        if (item.name === food_item.Item) {
+          item.price = food_item.Price;
+        }
+      }
+    }
+    setCart(cart);
+    calculateTotalPrice(cart);
+  }
+
   const loadCart = () => {
     // Example items for demonstration
-    const exampleCart = [
-      { name: "Item 1", price: 100, count: 2 },
-      { name: "Item 2", price: 200, count: 1 },
-      { name: "Item 3", price: 50, count: 3 },
-    ];
-    setCart(exampleCart);
-    calculateTotalPrice(exampleCart);
+    const temp = localStorage.getItem("cart");
+    const cartItems = temp ? JSON.parse(temp) : [];
+    setCart(cartItems);
   };
 
   const calculateTotalPrice = (cartItems) => {
@@ -61,6 +97,46 @@ export default function Page() {
     });
   };
 
+  const addOrderToDatabase = async (isCash) => {
+    let res = await fetch("http://localhost:8080/getuserid", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name: userName }),
+    });
+    let data = await res.json();
+    let orderDetails = [];
+    for(let item of cart){
+      let orderDetail = {};
+      orderDetail.item = item.name;
+      orderDetail.quantity = item.count;
+      orderDetails.push(orderDetail);
+    }
+    console.log(orderDetails);
+    const order = {
+      user_id:data.uid,
+      rest_id: rest_id,
+      is_paid: true,
+      is_cash: isCash,
+      timestamp: new Date().toISOString(),
+      order_status: isCash ? 1 : 2,
+      order_items: orderDetails,
+    };
+    console.log(order);
+    res = await fetch("http://localhost:8080/createorder", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(order),
+    });
+    data = await res.json();
+    console.log(data);
+    localStorage.setItem("cart", JSON.stringify([]));
+    window.location.href = `/track/${data["order"]+1234567890}`;
+  };
+
   const makePayment = async () => {
     const res = await initializeRazorpay();
 
@@ -69,7 +145,11 @@ export default function Page() {
       return;
     }
 
-    const response = await fetch("/api/razorpay", { method: "POST" });
+    const response = await fetch("/api/razorpay", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ amount: price })
+    });
     const data = await response.json();
 
     if (!data) {
@@ -81,11 +161,15 @@ export default function Page() {
       key: process.env.RAZORPAY_KEY, // Enter the Key ID generated from the Dashboard
       name: "Rishabh's Canteen",
       currency: data.currency,
-      amount: data.amount,
+      amount: price * 100,
       order_id: data.id,
       description: "Bill for your order",
-      handler: function (response) {
-        // Validate payment at server - using webhooks is a better idea.
+      handler: async function (response) {
+        // alert(response.razorpay_payment_id);
+        // alert(response.razorpay_order_id);
+        // alert(response.razorpay_signature);
+        // if payment is successful, add the order to the  clear the cart and redirect to track page
+        addOrderToDatabase(false);
       },
       prefill: {
         name: "Surya Narayanan",
@@ -98,9 +182,11 @@ export default function Page() {
     paymentObject.open();
   };
 
+
+
   return (
     <div className="gradient-bg2 items-left justify-center">
-      {userName.length > 0 ? <NavbarLogin item={userName} /> : <Navbar />}
+      <Navbar />
       <div className="flex flex-col  min-h-screen pt-40 px-4 md:px-10 pb-20">
         <div className="text-3xl font-bold mb-4">Checkout</div>
         <div className="w-full max-w-4xl flex flex-col gap-2">
@@ -154,9 +240,9 @@ export default function Page() {
                 Proceed to Payment
               </Button>
               <Button className="bg-gray-500 text-white rounded-2xl cursor-pointer hover:bg-gray-400">
-                <a href="/track" className="block w-full text-center">
+                <div className="block w-full text-center" onClick={()=>addOrderToDatabase(true)}>
                   Pay with Cash
-                </a>
+                </div>
               </Button>
             </div>
           </div>

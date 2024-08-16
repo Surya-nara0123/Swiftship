@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { HiMenuAlt4 } from "react-icons/hi";
 import {
   AiOutlineClose,
@@ -7,34 +7,102 @@ import {
   AiOutlineUser,
 } from "react-icons/ai";
 import { toast } from "sonner";
+import axios from "axios";
 
-const NavBarItem = ({ title, classprops, href }) => (
-  <li
-    className={`mx-4 cursor-pointer ${classprops}`}
-    onClick={() => {
-      if (title === "Contact Us") {
-        window.location.href = "/contact";
-      } else if (title === "Services") {
-        window.location.href = "/services";
-      } else if (title === "My Cart") {
-        window.location.href = "/cart";
-      } else if (title === "Account") {
-        window.location.href = "/profile";
-      }
-    }}
-  >
-    {title === "My Cart" ? (
-      <AiOutlineShoppingCart className="mr-1" size={30} />
-    ) : title === "Account" ? (
-      <AiOutlineUser className="mr-1" size={30} />
-    ) : (
-      title
-    )}
-  </li>
-);
+const NavBarItem = ({ title, classprops, userName }) => {
+  return (
+    <li
+      className={`mx-4 cursor-pointer ${classprops}`}
+      onClick={() => {
+        console.log(userName);
+        if (title === "Contact Us") {
+          window.location.href = "/contact";
+        } else if (title === "Services") {
+          window.location.href = "/services";
+        } else if (title === "My Cart") {
+          console.log(userName);
+          if (userName === "") {
+            toast.error("Please login to view your cart");
+            return;
+          }
+          window.location.href = "/cart";
+        } else if (title === "Account") {
+          // console.log(userName);
+          window.location.href = `/profile/${userName}`;
+        }
+      }}
+    >
+      {title === "My Cart" ? (
+        <AiOutlineShoppingCart className="mr-1" size={30} />
+      ) : title === "Account" ? (
+        <AiOutlineUser className="mr-1" size={30} />
+      ) : (
+        title
+      )}
+    </li>
+  );
+}
+
 
 const Navbar = () => {
+  const [userName, setUserName] = useState("");
   const [toggleMenu, setToggleMenu] = React.useState(false);
+
+  const [userId, setUserId] = useState("");
+  const getUserId = async () => {
+    if (userName === "") {
+      return;
+    }
+    let res = await fetch("http://localhost:8080/getuserid", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: userName,
+      })
+    });
+    let data = await res.json();
+    console.log(data);
+    setUserId(data["uid"]);
+  };
+  useEffect(() => {
+    // console.log(userName);
+    getUserId();
+  }, [userName]);
+
+  const getUserName = async () => {
+    try {
+      const res = await fetch("/api/getToken",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
+      );
+      if (res.status !== 200) {
+        setUserName("");
+        // console.log(res);
+        return;
+      }
+      const body = await res.json();
+      if (body["message"] == "Token Expired") {
+        // console.log("Token Expired");
+        setUserName("");
+        return;
+      }
+      // console.log(body);
+      setUserName(body["decodedToken"]["name"]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getUserName();
+    getUserId();
+  }, []);
 
   return (
     <nav className="z-10 fixed gradient-bg-welcome w-full flex md:justify-center justify-between items-center p-2">
@@ -49,23 +117,27 @@ const Navbar = () => {
         />
       </div>
       <ul className="text-black md:flex hidden list-none flex-row justify-between items-center flex-initial ml-auto">
-        <li
-          className="text-black py-2 pl-4 rounded-full cursor-pointer hover:text-red-500"
-          onClick={() => {
-            window.location.href = "/signup";
-          }}
-        >
-          Sign up
-        </li>
-        <li
-          className="text-black py-2 px-7 rounded-full cursor-pointer hover:text-red-500"
-          onClick={() => {
-            window.location.href = "/login";
-          }}
-        >
-          Log in
-        </li>
-        <NavBarItem key={"Account"} title={"Account"} />
+        {userName === "" && (
+          <>
+            <li
+              className="text-black py-2 pl-4 rounded-full cursor-pointer hover:text-red-500"
+              onClick={() => {
+                window.location.href = "/signup";
+              }}
+            >
+              Sign up
+            </li>
+            <li
+              className="text-black py-2 px-7 rounded-full cursor-pointer hover:text-red-500"
+              onClick={() => {
+                window.location.href = "/login";
+              }}
+            >
+              Log in
+            </li>
+          </>
+        )}
+        <NavBarItem key={"Account"} title={"Account"} userName={userId} />
         <NavBarItem key={"My Cart"} title={"My Cart"} />
       </ul>
       <div className="flex relative">

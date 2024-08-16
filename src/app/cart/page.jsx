@@ -11,45 +11,60 @@ export default function Page() {
   const [cart, setCart] = useState([]);
   const [price, setPrice] = useState(0);
 
-  const getUserName = async () => {
+  const getCart = async () => {
     try {
-      const res = await axios.get("/api/getcookies");
-      if (res.data.result.value) {
-        setUserName(res.data.result.value);
+      const cartItems = await localStorage.getItem("cart");
+      if (cartItems) {
+        const cart = JSON.parse(cartItems);
+        setCart(cart);
       }
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.log(error);
     }
-  };
+  }
 
   useEffect(() => {
     loadCart();
-    getUserName();
   }, []);
 
-  const loadCart = () => {
+  const loadCart = async () => {
     // Example items for demonstration
-    const exampleCart = [
-      { name: "Item 1", price: 100, count: 2 },
-      { name: "Item 2", price: 200, count: 1 },
-      { name: "Item 3", price: 50, count: 3 },
-    ];
-    setCart(exampleCart);
-    calculateTotalPrice(exampleCart);
+    await getCart();
   };
 
-  const calculateTotalPrice = (cartItems) => {
-    const totalPrice = cartItems.reduce(
-      (acc, item) => acc + item.price * item.count,
-      0
-    );
-    setPrice(totalPrice);
+  useEffect(() => {
+    calculateTotalPrice(cart);
+  }, [cart]);
+
+  const calculateTotalPrice = async (cartItems) => {
+    console.log(cart)
+    const res = await fetch("http://localhost:8080/getFooditems", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    });
+    const data = await res.json();
+    console.log(data);
+    let TotalPrice = 0;
+    for (let item of cartItems) {
+      console.log(typeof item, typeof data["food_items"]);
+      for (let food of data["food_items"]) {
+        console.log(food.Item);
+        if (food.Item === item.name) {
+          TotalPrice += food.Price * item.count;
+        }
+      }
+    }
+    console.log(TotalPrice);
+    setPrice(TotalPrice);
   };
 
   const incrementItem = (index) => {
     const newCart = [...cart];
     newCart[index].count += 1;
     setCart(newCart);
+    localStorage.setItem("cart", JSON.stringify(newCart));
     calculateTotalPrice(newCart);
   };
 
@@ -58,6 +73,7 @@ export default function Page() {
     if (newCart[index].count > 1) {
       newCart[index].count -= 1;
       setCart(newCart);
+      localStorage.setItem("cart", JSON.stringify(newCart));
       calculateTotalPrice(newCart);
     }
   };
@@ -66,6 +82,7 @@ export default function Page() {
     const newCart = [...cart];
     newCart.splice(index, 1);
     setCart(newCart);
+    localStorage.setItem("cart", JSON.stringify(newCart));
     calculateTotalPrice(newCart);
   };
 
