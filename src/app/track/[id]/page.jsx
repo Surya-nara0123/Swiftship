@@ -182,7 +182,7 @@ export default function Page({ params }) {
                   <span className="font-semibold">Total Amount:</span> ₹{calculateTotalPrice()}
                 </div>
                 <div className="mb-3 sm:mb-4">
-                  <span className="font-semibold">Mode of Payment:</span> {fullOrder.IsCash ? "Cash" : "Online"}
+                  <span className="font-semibold">Mode of Payment:</span> {fullOrder.is_cash ? "Cash" : "Online"}
                 </div>
                 <div>
                   <span className="font-semibold">Transaction ID:</span>{" "}
