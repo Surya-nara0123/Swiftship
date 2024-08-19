@@ -203,7 +203,7 @@ export default function Page({ params }) {
   };
 
   const getFoodItems = async () => {
-    const response = await fetch("http://127.0.0.1:8080/getfooditemsbyrestaurant", {
+    const response = await fetch("http://localhost:8080/getfooditemsbyrestaurant", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

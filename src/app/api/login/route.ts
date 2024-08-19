@@ -7,7 +7,7 @@ export async function POST(request:NextRequest) {
     try {
         const body = await request.json();
         const token = jwt.sign(body.user, 'secret', { expiresIn: '1d' });
-        cookies().set('token', token, {httpOnly: true, path: '/', sameSite: 'lax', secure: true, maxAge: 2 * 60 * 60 * 24, domain: 'localhost'});
+        cookies().set('token', token, {httpOnly: true, path: '/', sameSite: 'lax', secure: true, maxAge: 7 * 60 * 60 * 24, domain: 'localhost'});
         return NextResponse.json({ message: "Success" }, { status: 200 })
     } catch (error) {
         console.log(error);

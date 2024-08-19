@@ -173,10 +173,11 @@ export default function Page({ params }) {
               >
                 <h2 className="text-xl font-semibold mb-4">Your Orders</h2>
                 <ul>
-                  {orders.map((_, index) => (
+                  {orders.map((order, index) =>
+                   order.OrderStatusId != 0 && order.OrderStatusId != 5 && (
                     <li key={index} className="border-b border-red-200 py-2">
-                      Order #{index + 1} -{" "}
-                      <a href="/track" className="text-gray-700 underline">
+                      Order #{order.UID} -{" "}
+                      <a href={`/track/${order.UID+1234567890}`} className="text-gray-700 underline">
                         Details
                       </a>
                     </li>

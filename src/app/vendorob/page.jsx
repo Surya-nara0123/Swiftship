@@ -1,8 +1,43 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../components/Navbar";
+import axios from "axios";
 
 export default function Page() {
+  const [name, setName] = useState("");
+  const [sname, setSname] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [business, setBusiness] = useState("");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log({
+      name: name,
+      sname: sname,
+      phone: phone,
+      email: email,
+      address: address,
+      business: business,
+    });
+
+    //create a new vendor
+    const res = await axios.post("/api/createVendor", {
+      name: name,
+      sname: sname,
+      phone: phone,
+      email: email,
+      address: address,
+      business: business,
+    })
+
+    if (res.status === 200) {
+      alert("Vendor created successfully");
+    } else {
+      alert("Vendor creation failed");
+    }
+
+  }
   return (
     <div>
       <Navbar />
@@ -21,20 +56,24 @@ export default function Page() {
             <form className="space-y-4">
               <div>
                 <label htmlFor="name" className="block text-gray-700">
-                  Proprietor Name
+                  Legal Business Name
                 </label>
                 <input
                   type="text"
+                  value={sname}
+                  onChange={(e) => setSname(e.target.value)}
                   id="pname"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md"
                 />
               </div>
               <div>
-                <label htmlFor="email" className="block text-gray-700">
-                  Shop Name
+                <label htmlFor="name" className="block text-gray-700">
+                  Name
                 </label>
                 <input
                   type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   id="sname"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md"
                 />
@@ -45,22 +84,62 @@ export default function Page() {
                 </label>
                 <input
                   type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
                   id="phone"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md"
                 />
               </div>
               <div>
-                <label htmlFor="username" className="block text-gray-700">
+                <label htmlFor="email" className="block text-gray-700">
                   Email
                 </label>
                 <input
                   type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   id="email"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md"
                 />
               </div>
+              <div>
+                <label htmlFor="address" className="block text-gray-700">
+                  Address
+                </label>
+                <input
+                  type="text"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  id="address"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                />
+              </div>
+              <div>
+                <label htmlFor="Business Type" className="block text-gray-700">
+                  Business Type
+                </label>
+                <select
+                  id="business"
+                  value={business}
+                  onChange={(e) => setBusiness(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                >
+                  <option value="0" defaultValue>Select</option>
+                  <option value="1">proprietorship</option>
+                  <option value="2">partnership</option>
+                  <option value="3">private_limited</option>
+                  <option value="4">public_limited</option>
+                  <option value="5">llp</option>
+                  <option value="6">ngo</option>
+                  <option value="7">trust</option>
+                  <option value="8">society</option>
+                  <option value="9">not_yet_registered</option>
+                  <option value="10">huf</option>
+                </select>
+              </div>
               <button
                 type="submit"
+                onClick={handleSubmit}
                 className="px-4 py-2 bg-red-600 text-white rounded-lg shadow hover:bg-red-700"
               >
                 Apply
