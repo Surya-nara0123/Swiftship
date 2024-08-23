@@ -182,7 +182,7 @@ export default function Page({ params }) {
 
   const getRestaurant = async () => {
     // console.log(params);
-    const res = await fetch("http://localhost:8080/getrestaurantbyid",
+    const res = await fetch("https://swiftshipbackend-production.up.railway.app/getrestaurantbyid",
       {
         method: "POST",
         headers: {
@@ -203,7 +203,7 @@ export default function Page({ params }) {
   };
 
   const getFoodItems = async () => {
-    const response = await fetch("http://localhost:8080/getfooditemsbyrestaurant", {
+    const response = await fetch("https://swiftshipbackend-production.up.railway.app/getfooditemsbyrestaurant", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -50,7 +50,7 @@ export default function Page() {
 
   const updatePricesCart = async () => {
     if (cart.length === 0) return;
-    const res = await fetch("http://localhost:8080/getFooditems")
+    const res = await fetch("https://swiftshipbackend-production.up.railway.app/getFooditems")
     const data = await res.json()
     setRest_id(data["food_items"][0].RestuarantId)
     console.log(data["food_items"])
@@ -98,7 +98,7 @@ export default function Page() {
   };
 
   const addOrderToDatabase = async (isCash) => {
-    let res = await fetch("http://localhost:8080/getuserid", {
+    let res = await fetch("https://swiftshipbackend-production.up.railway.app/getuserid", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -124,7 +124,7 @@ export default function Page() {
       order_items: orderDetails,
     };
     console.log(order);
-    res = await fetch("http://localhost:8080/createorder", {
+    res = await fetch("https://swiftshipbackend-production.up.railway.app/createorder", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

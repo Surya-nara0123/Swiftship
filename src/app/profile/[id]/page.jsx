@@ -23,6 +23,9 @@ export default function Page({ params }) {
       } else {
         const data = await res.json();
         console.log(data);
+        if(data.decodedToken.user_type == 2){
+          window.location.href = `/admin/${params.id}`;
+        }
         setUser(data.decodedToken);
         setUser1(data.decodedToken);
       }
@@ -49,7 +52,7 @@ export default function Page({ params }) {
     }
     console.log("hiii1", user);
     try {
-      const res1 = await fetch("http://localhost:8080/getuserid",
+      const res1 = await fetch("https://swiftshipbackend-production.up.railway.app/getuserid",
         {
           method: "POST",
           headers: {
@@ -60,13 +63,12 @@ export default function Page({ params }) {
       );
       const data1 = await res1.json();
       console.log("hii", data1);
-      const res = await fetch("http://localhost:8080/getordersbyuser",
+      const res = await fetch("https://swiftshipbackend-production.up.railway.app/getactiveorders",
         {
-          method: "POST",
+          method: "GET",
           headers: {
             "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ id: data1.uid })
+          }
         }
       );
 
@@ -92,7 +94,7 @@ export default function Page({ params }) {
   const [completedOrdersWindow, setCompletedOrdersWindow] = React.useState(false);
   const getCompletedOrders = async () => {
     try {
-      const res = await fetch("http://localhost:8080/getcompletedorders",
+      const res = await fetch("https://swiftshipbackend-production.up.railway.app/getcompletedorders",
         {
           method: "GET",
           headers: {
@@ -122,7 +124,7 @@ export default function Page({ params }) {
     }
     console.log(req);
     try {
-      const res = await fetch("http://localhost:8080/updateUser",
+      const res = await fetch("https://swiftshipbackend-production.up.railway.app/updateUser",
         {
           method: "POST",
           headers: {

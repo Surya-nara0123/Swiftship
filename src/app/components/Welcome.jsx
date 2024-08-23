@@ -75,7 +75,7 @@ const Welcome = () => {
   const [foodItems, setFoodItems] = useState([]);
 
   const getRestaurants = async () => {
-    const response = await fetch("http://localhost:8080/getrestaurants");
+    const response = await fetch("https://swiftshipbackend-production.up.railway.app/getrestaurants");
     // console.log(response);
     const data = await response.json();
     // console.log(data["result"][0]);
@@ -83,7 +83,7 @@ const Welcome = () => {
   };
 
   const getFoodItems = async () => {
-    const response = await fetch("http://localhost:8080/getfooditems", {
+    const response = await fetch("https://swiftshipbackend-production.up.railway.app/getfooditems", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

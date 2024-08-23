@@ -6,33 +6,31 @@ import axios from "axios";
 export default function Page() {
   const [name, setName] = useState("");
   const [sname, setSname] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState(false)
+  const [password, setPassword] = useState("");
   const [address, setAddress] = useState("");
-  const [business, setBusiness] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({
-      name: name,
-      sname: sname,
-      phone: phone,
-      email: email,
-      address: address,
-      business: business,
-    });
+    // console.log({
+    //   vendor_name: name,
+    //   sname: sname,
+    //   phone: phone,
+    //   email: email,
+    //   address: address,
+    //   business: business,
+    // });
 
     //create a new vendor
-    const res = await axios.post("/api/createVendor", {
-      name: name,
-      sname: sname,
-      phone: phone,
-      email: email,
-      address: address,
-      business: business,
+    const res = await axios.post("https://swiftshipbackend-production.up.railway.app/addrestaurant", {
+      vendor_name: name,
+      name: sname,
+      password: password,
+      is_veg: phone,
+      location: address,
     })
 
     if (res.status === 200) {
-      alert("Vendor created successfully");
+      window.location.href = "/login"
     } else {
       alert("Vendor creation failed");
     }
@@ -68,7 +66,7 @@ export default function Page() {
               </div>
               <div>
                 <label htmlFor="name" className="block text-gray-700">
-                  Name
+                  Vendor Name
                 </label>
                 <input
                   type="text"
@@ -80,27 +78,16 @@ export default function Page() {
               </div>
               <div>
                 <label htmlFor="phone" className="block text-gray-700">
-                  Phone
+                  Are you a vegetarian vendor?
                 </label>
                 <input
-                  type="tel"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
+                  type="checkbox"
+                  checked={phone}
+                  onChange={(e) => setPhone(e.target.checked)}
                   id="phone"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  className="ml-2 px-3 py-2 border border-gray-300 rounded-md"
                 />
-              </div>
-              <div>
-                <label htmlFor="email" className="block text-gray-700">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  id="email"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                />
+
               </div>
               <div>
                 <label htmlFor="address" className="block text-gray-700">
@@ -115,27 +102,16 @@ export default function Page() {
                 />
               </div>
               <div>
-                <label htmlFor="Business Type" className="block text-gray-700">
-                  Business Type
+                <label htmlFor="email" className="block text-gray-700">
+                  Password
                 </label>
-                <select
-                  id="business"
-                  value={business}
-                  onChange={(e) => setBusiness(e.target.value)}
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  id="password"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                >
-                  <option value="0" defaultValue>Select</option>
-                  <option value="1">proprietorship</option>
-                  <option value="2">partnership</option>
-                  <option value="3">private_limited</option>
-                  <option value="4">public_limited</option>
-                  <option value="5">llp</option>
-                  <option value="6">ngo</option>
-                  <option value="7">trust</option>
-                  <option value="8">society</option>
-                  <option value="9">not_yet_registered</option>
-                  <option value="10">huf</option>
-                </select>
+                />
               </div>
               <button
                 type="submit"

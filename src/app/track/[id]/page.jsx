@@ -14,7 +14,7 @@ export default function Page({ params }) {
   const [fullOrder, setFullOrder] = useState([]);
   const [windowLoaded, setWindowLoaded] = useState(false);
   const addPricesToOrderItems = async (orderItems) => {
-    const res = await fetch("http://localhost:8080/getFooditems", {
+    const res = await fetch("https://swiftshipbackend-production.up.railway.app/getFooditems", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -40,7 +40,7 @@ export default function Page({ params }) {
   };
   const getOrder = async () => {
     // Fetch order details from the server
-    let res = await fetch("http://localhost:8080/getorderid",
+    let res = await fetch("https://swiftshipbackend-production.up.railway.app/getorderid",
       {
         method: "POST",
         headers: {

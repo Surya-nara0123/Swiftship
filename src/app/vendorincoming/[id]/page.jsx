@@ -13,7 +13,7 @@ export default function Page({ params }) {
     const [windowLoaded, setWindowLoaded] = useState(false);
 
     const getOrders = async () => {
-        let res = await fetch("http://localhost:8080/getrestaurantbyid", {
+        let res = await fetch("https://swiftshipbackend-production.up.railway.app/getrestaurantbyid", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -25,7 +25,7 @@ export default function Page({ params }) {
         let data = await res.json();
         // console.log(data);
         setRestaurant(data["result"]["name"]);
-        res = await fetch("http://localhost:8080/getordersbyrestaurant", {
+        res = await fetch("https://swiftshipbackend-production.up.railway.app/getordersbyrestaurant", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -49,7 +49,7 @@ export default function Page({ params }) {
 
     const updateOrders = async (status) => {
         // Update the orders on the server
-        let res = await fetch("http://localhost:8080/updateorderstatus", {
+        let res = await fetch("https://swiftshipbackend-production.up.railway.app/updateorderstatus", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

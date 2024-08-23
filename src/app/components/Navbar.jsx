@@ -53,8 +53,10 @@ const Navbar = () => {
     if (userName === "") {
       return;
     }
-    let res = await fetch("http://localhost:8080/getuserid", {
+    console.log(window.location.href);
+    let res = await fetch("https://swiftshipbackend-production.up.railway.app/getuserid", {
       method: "POST",
+      // mode: "no-cors",
       headers: {
         "Content-Type": "application/json",
       },

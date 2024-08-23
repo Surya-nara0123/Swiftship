@@ -43,7 +43,7 @@ export default function Page() {
       setWindowLoaded(true)
     }
     console.log(cart)
-    const res = await fetch("http://localhost:8080/getFooditems", {
+    const res = await fetch("https://swiftshipbackend-production.up.railway.app/getFooditems", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

@@ -22,7 +22,7 @@ const Page = () => {
       "user_type": 1,
       "password": user.password
     };
-    const res = await fetch ("http://localhost:8080/createuser", {
+    const res = await fetch ("https://swiftshipbackend-production.up.railway.app/createuser", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

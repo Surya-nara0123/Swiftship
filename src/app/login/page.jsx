@@ -20,7 +20,7 @@ const Page = () => {
       name: user.username,
       password: user.password,
     };
-    const res = await fetch("http://localhost:8080/getuserbyusername", {
+    const res = await fetch("https://swiftshipbackend-production.up.railway.app/getuserbyusername", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -36,12 +36,22 @@ const Page = () => {
       console.log("User not found");
       return;
     }
-    const userRes = body["user"];
+    let userRes = body["user"];
+    if (!userRes) {
+      userRes = body["resturant"];
+      const res1 = await axios.post("/api/login", {
+        user: userRes,
+      })
+      console.log("logged in, restaurant: ", userRes.id);
+      window.location.href = `/admin/${userRes.id}`;
+      return;
+    }
     const res1 = await axios.post("/api/login", {
       user: userRes,
     })
-    console.log("logged in");
-    router.push(`/profile/${userRes.id}`);
+    console.log("logged in, user: ", userRes.id);
+    // router.push(`/profile/${userRes.id}`);
+    window.location.href = `/profile/${userRes.id}`;
   };
 
   return (
