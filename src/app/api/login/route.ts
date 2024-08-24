@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
         const body = await request.json();
         const token = jwt.sign(body.user, 'secret', { expiresIn: '1d' });
         console.log(request.url);
-        cookies().set('token', token, { httpOnly: true, path: '/', sameSite: 'lax', secure: true, maxAge: 7 * 60 * 60 * 24, domain: '192.168.29.103:3000' });
+        cookies().set('token', token, { httpOnly: true, path: '/', sameSite: 'lax', secure: true, maxAge: 7 * 60 * 60 * 24, domain: 'swiftship-nine.vercel.app' });
         // const data = cookies().getAll();
         // console.log(data);
         // request.cookies.set('token', token,)
