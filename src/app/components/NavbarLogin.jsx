@@ -171,7 +171,7 @@ const NavBarItem = ({ title, classprops }) => {
 };
 
 const NavbarLogin = ({ item }) => {
-  const [toggleMenu, setToggleMenu] = React.useState(false);
+  const [toggleMenu, setToggleMenu] = useState(false);
 
   return (
     <nav className="z-10 fixed gradient-bg-welcome w-full flex md:justify-center justify-between items-center p-2">

@@ -3,9 +3,9 @@ import React, { useRef, useState, useEffect } from "react";
 import Navbar from "../../components/Navbar";
 
 export default function Page({ params }) {
-  const [user, setUser] = React.useState([]);
-  const [windowLoaded, setWindowLoaded] = React.useState(true);
-  const [foodItems, setFoodItems] = React.useState([]);
+  const [user, setUser] = useState([]);
+  const [windowLoaded, setWindowLoaded] = useState(true);
+  const [foodItems, setFoodItems] = useState([]);
 
   const Modal = ({ onClose }) => {
 
@@ -156,7 +156,7 @@ export default function Page({ params }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState({});
-  const modalRef = React.useRef(null);
+  const modalRef = useRef(null);
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
@@ -179,7 +179,7 @@ export default function Page({ params }) {
     console.log(foodItems);
   }, [foodItems]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     getUserName();
     getFoodItems();
   }, []);
