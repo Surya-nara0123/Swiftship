@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import Navbar from "../../components/Navbar";
-import axios from "axios";
 
 export default function Page({ params }) {
   const [user, setUser] = React.useState([]);
