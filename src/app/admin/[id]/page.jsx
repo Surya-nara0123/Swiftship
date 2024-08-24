@@ -194,9 +194,9 @@ export default function Page({ params }) {
       <Navbar />
       {/* FoodItems */}
       <div className="flex flex-col items-left justify-left min-h-screen pt-40 ml-10 pb-20">
-        {foodItems.map((foodItem) => {
+        {foodItems.map((foodItem, index) => {
           return (
-            <div className="bg-white p-4 rounded-md shadow-md">
+            <div className="bg-white p-4 rounded-md shadow-md" key={index}>
               <div className="flex justify-between">
                 <h1 className="text-2xl font-bold">{foodItem.Item}</h1>
                 <div className="flex gap-3">

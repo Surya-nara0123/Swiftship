@@ -165,7 +165,7 @@ export default function Page({ params }) {
                   </thead>
                   <tbody>
                     {order.map((item, index) => (
-                      <tr className="border-b border-red-200">
+                      <tr className="border-b border-red-200" key={index}>
                         <td className="py-2 px-2 sm:px-4 truncate">{item.item}</td>
                         <td className="py-2 px-2 sm:px-4 truncate">₹{item.price}</td>
                         <td className="py-2 px-2 sm:px-4 truncate">{item.quantity}</td>
