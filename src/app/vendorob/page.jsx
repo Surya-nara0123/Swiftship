@@ -45,7 +45,7 @@ export default function Page() {
             Vendor Onboarding
           </h1>
           <h1 className="text-m lg:text-l mb-8">
-            Let's get you started on selling your items on SwiftShip!
+            {"Let's get you started on selling your items on SwiftShip!"}
           </h1>
           <div
             id="edit"

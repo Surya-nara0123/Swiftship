@@ -161,8 +161,8 @@ export default function Page({ params }) {
                                                 </thead>
                                                 <tbody>
                                                     {/* Example expanded order details */}
-                                                    {selectedOrder.order_items.map((item) => (
-                                                        <tr className="border-b border-red-200">
+                                                    {selectedOrder.order_items.map((item, index) => (
+                                                        <tr className="border-b border-red-200" key={index}>
                                                             <td className="py-2 px-4">{item.item}</td>
                                                             <td className="py-2 px-4">{item.quantity}</td>
                                                             <td className="py-2 px-4">₹{item.price}</td>
