@@ -104,7 +104,8 @@ const Navbar = () => {
   useEffect(() => {
     getUserName();
     getUserId();
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
 
   return (
     <nav className="z-10 fixed gradient-bg-welcome w-full flex md:justify-center justify-between items-center p-2">

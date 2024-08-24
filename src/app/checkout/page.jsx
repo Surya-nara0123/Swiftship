@@ -42,7 +42,8 @@ export default function Page() {
   useEffect(() => {
     loadCart();
     getUserName();
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
 
   useEffect(() => {
     updatePricesCart(cart);

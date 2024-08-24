@@ -27,7 +27,8 @@ export default function Page() {
 
   useEffect(() => {
     loadCart();
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
 
   const loadCart = async () => {
     // Example items for demonstration

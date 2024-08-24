@@ -69,7 +69,8 @@ const Welcome = () => {
       cleanupShops();
       cleanupAgain();
     };
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
 
   const [restaurants, setRestaurants] = useState([]);
   const [foodItems, setFoodItems] = useState([]);
@@ -101,7 +102,8 @@ const Welcome = () => {
     getFoodItems();
     setWindowLoaded(true);
     getCart();
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
 
 
   const handleItemClick = (name, description, price) => {

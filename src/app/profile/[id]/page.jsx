@@ -42,7 +42,8 @@ export default function Page({ params }) {
   React.useEffect(() => {
     getUserName();
     getCompletedOrders();
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
 
   const [orders, setOrders] = React.useState([]);
   const getOrders = async () => {

@@ -66,7 +66,8 @@ export default function Page({ params }) {
       cleanupTrending();
       cleanupBreakfast();
     };
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -221,7 +222,8 @@ export default function Page({ params }) {
     getFoodItems();
     setWindowLoaded(true);
     getCart();
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
 
   const isSpecialsPresent = foodItems.some((item) => !item.IsRegular);
 

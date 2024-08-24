@@ -79,7 +79,8 @@ export default function Page({ params }) {
 
     // Clean up function to clear the interval when the component unmounts
     return () => clearInterval(intervalId);
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
 
   return (
     <div className="relative">

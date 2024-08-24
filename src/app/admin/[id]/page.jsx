@@ -178,7 +178,8 @@ export default function Page({ params }) {
   useEffect(() => {
     getUserName();
     getFoodItems();
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
 
   const handleItemClick = () => {
     setIsModalOpen(true);
