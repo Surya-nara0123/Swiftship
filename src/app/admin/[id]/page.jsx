@@ -176,10 +176,6 @@ export default function Page({ params }) {
   }, [modalVisible]);
 
   useEffect(() => {
-    console.log(foodItems);
-  }, [foodItems]);
-
-  useEffect(() => {
     getUserName();
     getFoodItems();
   }, []);
