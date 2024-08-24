@@ -279,7 +279,7 @@ export default function Page({ params }) {
                     className="flex overflow-x-auto space-x-2 p-4 mx-8 w-full"
                   >
                     {foodItems.map((item) =>
-                      item.IsRegular && (
+                      (item.IsRegular && item.AvailableTime == 0) &&(
                         <div
                           key={item.id}
                           className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4 cursor-pointer"
@@ -306,7 +306,8 @@ export default function Page({ params }) {
                     ref={bfScrollContainerRef}
                     className="flex overflow-x-auto space-x-2 p-4 mx-8 w-full"
                   >
-                    {foodItems.map((item) => (
+                    {foodItems.map((item) => 
+                    (item.IsRegular && item.AvailableTime == 1) &&(
                       <div
                         key={item.id}
                         className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4 cursor-pointer"
@@ -332,7 +333,8 @@ export default function Page({ params }) {
                     ref={bfScrollContainerRef}
                     className="flex overflow-x-auto space-x-2 p-4 mx-8 w-full"
                   >
-                    {foodItems.map((item) => (
+                    {foodItems.map((item) =>
+                    (item.IsRegular && item.AvailableTime == 2) && (
                       <div
                         key={item.id}
                         className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4 cursor-pointer"
@@ -358,7 +360,8 @@ export default function Page({ params }) {
                     ref={bfScrollContainerRef}
                     className="flex overflow-x-auto space-x-2 p-4 mx-8 w-full"
                   >
-                    {foodItems.map((item) => (
+                    {foodItems.map((item) => 
+                    (item.IsRegular && item.AvailableTime == 3) &&(
                       <div
                         key={item.id}
                         className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4 cursor-pointer"
