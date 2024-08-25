@@ -66,8 +66,8 @@ export default function Page({ params }) {
       cleanupTrending();
       cleanupBreakfast();
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-}, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -183,38 +183,47 @@ export default function Page({ params }) {
 
   const getRestaurant = async () => {
     // console.log(params);
-    const res = await fetch("https://swiftshipbackend-production.up.railway.app/getrestaurantbyid",
-      {
+    try {
+      const res = await fetch("https://swiftshipbackend-production.up.railway.app/getrestaurantbyid",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ "id": Number(params.id) }),
+        }
+      );
+      const body = await res.json();
+      if (res.status !== 200) {
+        console.log(body);
+        return;
+      }
+      // console.log(body);
+      setRestaurant(body["result"]);
+      setIsValid(true);
+    }
+    catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const getFoodItems = async () => {
+    try {
+      const response = await fetch("https://swiftshipbackend-production.up.railway.app/getfooditemsbyrestaurant", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ "id": Number(params.id) }),
+        body: JSON.stringify({ "rest_id": Number(params.id) }),
       }
-    );
-    // console.log(res);
-    const body = await res.json();
-    if (res.status !== 200) {
-      console.log(body);
-      return;
+      );
+      const body = await response.json();
+      console.log(body["food_items"][0]);
+      setFoodItems(body["food_items"]);
     }
-    // console.log(body);
-    setIsValid(true);
-    setRestaurant(body["result"]);
-  };
-
-  const getFoodItems = async () => {
-    const response = await fetch("https://swiftshipbackend-production.up.railway.app/getfooditemsbyrestaurant", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ "rest_id": Number(params.id) }),
+    catch (error) {
+      console.error("Error:", error);
     }
-    );
-    const body = await response.json();
-    console.log(body["food_items"][0]);
-    setFoodItems(body["food_items"]);
   }
 
   useEffect(() => {
@@ -222,8 +231,8 @@ export default function Page({ params }) {
     getFoodItems();
     setWindowLoaded(true);
     getCart();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-}, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const isSpecialsPresent = foodItems.some((item) => !item.IsRegular);
 
@@ -281,7 +290,7 @@ export default function Page({ params }) {
                     className="flex overflow-x-auto space-x-2 p-4 mx-8 w-full"
                   >
                     {foodItems.map((item) =>
-                      (item.IsRegular && item.AvailableTime == 0) &&(
+                      (item.IsRegular && item.AvailableTime == 0) && (
                         <div
                           key={item.id}
                           className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4 cursor-pointer"
@@ -308,17 +317,17 @@ export default function Page({ params }) {
                     ref={bfScrollContainerRef}
                     className="flex overflow-x-auto space-x-2 p-4 mx-8 w-full"
                   >
-                    {foodItems.map((item) => 
-                    (item.IsRegular && item.AvailableTime == 1) &&(
-                      <div
-                        key={item.id}
-                        className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4 cursor-pointer"
-                        onClick={() => handleItemClick(item)}
-                      >
-                        <div className="h-48 w-full bg-gray-300 rounded-lg"></div>
-                        <p className="text-center mt-2">{item.Item}</p>
-                      </div>
-                    ))}
+                    {foodItems.map((item) =>
+                      (item.IsRegular && item.AvailableTime == 1) && (
+                        <div
+                          key={item.id}
+                          className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4 cursor-pointer"
+                          onClick={() => handleItemClick(item)}
+                        >
+                          <div className="h-48 w-full bg-gray-300 rounded-lg"></div>
+                          <p className="text-center mt-2">{item.Item}</p>
+                        </div>
+                      ))}
                   </div>
                   <button className="bfScrollRight absolute right-0 bg-gray-500 text-white p-2 mr-5 mb-7 rounded-full focus:outline-none">
                     &gt;
@@ -336,16 +345,16 @@ export default function Page({ params }) {
                     className="flex overflow-x-auto space-x-2 p-4 mx-8 w-full"
                   >
                     {foodItems.map((item) =>
-                    (item.IsRegular && item.AvailableTime == 2) && (
-                      <div
-                        key={item.id}
-                        className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4 cursor-pointer"
-                        onClick={() => handleItemClick(item)}
-                      >
-                        <div className="h-48 w-full bg-gray-300 rounded-lg"></div>
-                        <p className="text-center mt-2">{item.Item}</p>
-                      </div>
-                    ))}
+                      (item.IsRegular && item.AvailableTime == 2) && (
+                        <div
+                          key={item.id}
+                          className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4 cursor-pointer"
+                          onClick={() => handleItemClick(item)}
+                        >
+                          <div className="h-48 w-full bg-gray-300 rounded-lg"></div>
+                          <p className="text-center mt-2">{item.Item}</p>
+                        </div>
+                      ))}
                   </div>
                   <button className="bfScrollRight absolute right-0 bg-gray-500 text-white p-2 mr-5 mb-7 rounded-full focus:outline-none">
                     &gt;
@@ -362,17 +371,17 @@ export default function Page({ params }) {
                     ref={bfScrollContainerRef}
                     className="flex overflow-x-auto space-x-2 p-4 mx-8 w-full"
                   >
-                    {foodItems.map((item) => 
-                    (item.IsRegular && item.AvailableTime == 3) &&(
-                      <div
-                        key={item.id}
-                        className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4 cursor-pointer"
-                        onClick={() => handleItemClick(item)}
-                      >
-                        <div className="h-48 w-full bg-gray-300 rounded-lg"></div>
-                        <p className="text-center mt-2">{item.Item}</p>
-                      </div>
-                    ))}
+                    {foodItems.map((item) =>
+                      (item.IsRegular && item.AvailableTime == 3) && (
+                        <div
+                          key={item.id}
+                          className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4 cursor-pointer"
+                          onClick={() => handleItemClick(item)}
+                        >
+                          <div className="h-48 w-full bg-gray-300 rounded-lg"></div>
+                          <p className="text-center mt-2">{item.Item}</p>
+                        </div>
+                      ))}
                   </div>
                   <button className="bfScrollRight absolute right-0 bg-gray-500 text-white p-2 mr-5 mb-7 rounded-full focus:outline-none">
                     &gt;

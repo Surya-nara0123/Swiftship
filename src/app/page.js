@@ -7,7 +7,7 @@ import axios from 'axios';
 
 export default function Home() {
   return (
-    <div className='bg-white min-h-screen'>
+    <div className='bg-white min-h-screen select-none'>
       <Navbar/>
       <Welcome />
     </div>
