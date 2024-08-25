@@ -191,10 +191,10 @@ export default function Page({ params }) {
                 </button>
                 {completedOrdersWindow && (
                   <ul>
-                    {completedOrders.map((_, index) => (
+                    {completedOrders.map((order, index) => (
                       <li key={index} className="border-b border-red-200 py-2">
-                        Order #{index + 1} -{" "}
-                        <a href="/track" className="text-gray-700 underline">
+                        Order #{order.UID} -{" "}
+                        <a href={`/track/${order.UID+1234567890}`} className="text-gray-700 underline">
                           Details
                         </a>
                       </li>

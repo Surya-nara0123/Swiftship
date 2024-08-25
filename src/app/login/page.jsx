@@ -5,6 +5,9 @@ import Navbar from "../components/Navbar.jsx";
 import axios from "axios";
 import { cookies } from "next/headers.js";
 import jwt from "jsonwebtoken";
+import { CSpinner } from '@coreui/react';
+import '@coreui/coreui/dist/css/coreui.min.css'
+// import 'bootstrap/dist/css/bootstrap.min.css'
 
 const Page = () => {
   const router = useRouter();
@@ -14,8 +17,10 @@ const Page = () => {
     username: "",
     mobile: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const onLogin = async () => {
+    setLoading(true);
     const request = {
       name: user.username,
       password: user.password,
@@ -29,10 +34,12 @@ const Page = () => {
     });
     const body = await res.json();
     if (res.status !== 200) {
+      setLoading(false);
       console.log(body);
       return;
     }
     if (body.length === 0) {
+      setLoading(false);
       console.log("User not found");
       return;
     }
@@ -51,6 +58,7 @@ const Page = () => {
     })
     console.log("logged in, user: ", userRes.id);
     // router.push(`/profile/${userRes.id}`);
+    setLoading(false);
     window.location.href = `/profile/${userRes.id}`;
   };
 
@@ -74,12 +82,17 @@ const Page = () => {
             onChange={(e) => setUser({ ...user, password: e.target.value })}
             placeholder="password"
           />
-          <div
-            className="p-2 m-2 bg-red-500 text-white rounded-2xl px-20 mt-5 cursor-pointer hover:bg-red-400"
-            onClick={onLogin}
-          >
-            Log in
-          </div>
+          {
+            !loading ?
+              <div
+                className="p-2 m-2 bg-red-500 text-white rounded-2xl px-20 mt-5 cursor-pointer hover:bg-red-400"
+                onClick={onLogin}
+              >
+                Log in
+              </div>
+              :
+              <CSpinner className="p-2 m-2 rounded-2xl px-20 mt-5 cursor-pointer" color="#00ff00"/>
+          }
         </div>
       </div>
     </div>

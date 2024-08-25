@@ -7,7 +7,11 @@ export async function POST(request: NextRequest) {
         const body = await request.json();
         const token = jwt.sign(body.user, 'secret', { expiresIn: '1d' });
         // console.log(request.url);
-        cookies().set('token', token, { httpOnly: true, path: '/', sameSite: 'lax', secure: true, maxAge: 7 * 60 * 60 * 24, domain: 'swiftship-nine.vercel.app' });
+        if(request.url.includes('localhost')) {
+            cookies().set('token', token, { httpOnly: true, path: '/', sameSite: 'lax', secure: true, maxAge: 7 * 60 * 60 * 24, domain: 'localhost' });
+        } else {
+            cookies().set('token', token, { httpOnly: true, path: '/', sameSite: 'lax', secure: true, maxAge: 7 * 60 * 60 * 24, domain: 'swiftship-nine.vercel.app' });
+        }
 
         return NextResponse.json({ message: "Success" }, { status: 200 })
     } catch (error) {

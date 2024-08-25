@@ -53,12 +53,13 @@ export default function Page() {
     if (cart.length === 0) return;
     const res = await fetch("https://swiftshipbackend-production.up.railway.app/getFooditems")
     const data = await res.json()
-    setRest_id(data["food_items"][0].RestuarantId)
     console.log(data["food_items"])
     for (let item of cart) {
       for (let food_item of data["food_items"]) {
         console.log(item.name, food_item.Item)
         if (item.name === food_item.Item) {
+          setRest_id(food_item.RestuarantId)
+          console.log(food_item.RestuarantId)
           item.price = food_item.Price;
         }
       }
@@ -118,7 +119,7 @@ export default function Page() {
     const order = {
       user_id:data.uid,
       rest_id: rest_id,
-      is_paid: true,
+      is_paid: isCash ? false : true,
       is_cash: isCash,
       timestamp: new Date().toISOString(),
       order_status: isCash ? 1 : 2,

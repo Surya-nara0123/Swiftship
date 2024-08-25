@@ -65,7 +65,22 @@ const Navbar = () => {
       })
     });
     let data = await res.json();
-    console.log(data);
+    // console.log(data);
+    if(data["uid"] == 0){
+      res = await fetch("https://swiftshipbackend-production.up.railway.app/getresturantid", {
+        method: "POST",
+        // mode: "no-cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: userName,
+        })
+      });
+      data = await res.json();
+      console.log(data.result);
+      data = data["result"];
+    }
     setUserId(data["uid"]);
   };
   useEffect(() => {

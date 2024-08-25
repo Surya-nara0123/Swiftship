@@ -35,6 +35,7 @@ export default function Page({ params }) {
             }),
         })
         data = await res.json();
+        // console.log(data);
         for (let i = 0; i < data["orders"].length; i++) {
             let sum = 0;
             data["orders"][i].order_items.forEach((item) => {
