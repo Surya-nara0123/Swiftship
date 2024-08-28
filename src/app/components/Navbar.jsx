@@ -58,6 +58,7 @@ const Navbar = () => {
       method: "POST",
       // mode: "no-cors",
       headers: {
+        
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -71,6 +72,7 @@ const Navbar = () => {
         method: "POST",
         // mode: "no-cors",
         headers: {
+        
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -94,6 +96,7 @@ const Navbar = () => {
         {
           method: "POST",
           headers: {
+        
             "Content-Type": "application/json"
           }
         }

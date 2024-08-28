@@ -47,6 +47,7 @@ export default function Page() {
     const res = await fetch("https://swiftshipbackend-production.up.railway.app/getFooditems", {
       method: "GET",
       headers: {
+        
         "Content-Type": "application/json",
       }
     });

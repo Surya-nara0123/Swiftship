@@ -16,6 +16,7 @@ export default function Page({ params }) {
         let res = await fetch("https://swiftshipbackend-production.up.railway.app/getrestaurantbyid", {
             method: "POST",
             headers: {
+
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
@@ -28,6 +29,7 @@ export default function Page({ params }) {
         res = await fetch("https://swiftshipbackend-production.up.railway.app/getordersbyrestaurant", {
             method: "POST",
             headers: {
+
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
@@ -36,6 +38,9 @@ export default function Page({ params }) {
         })
         data = await res.json();
         // console.log(data);
+        if (data["orders"] === undefined) {
+            return;
+        }
         for (let i = 0; i < data["orders"].length; i++) {
             let sum = 0;
             data["orders"][i].order_items.forEach((item) => {
@@ -53,6 +58,7 @@ export default function Page({ params }) {
         let res = await fetch("https://swiftshipbackend-production.up.railway.app/updateorderstatus", {
             method: "POST",
             headers: {
+
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
@@ -74,8 +80,8 @@ export default function Page({ params }) {
 
         // Clean up function to clear the interval when the component unmounts
         return () => clearInterval(intervalId);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-}, []);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const handleOpenModal = (order, index) => {
         console.log(index);
@@ -174,7 +180,7 @@ export default function Page({ params }) {
                                             </table>
                                             <div className="mb-4">
                                                 <h3 className="text-lg font-semibold">
-                                                    Total : 
+                                                    Total :
                                                 </h3>
                                                 ₹{selectedOrder.amount}
                                                 <h3 className="text-lg font-semibold">

@@ -11,6 +11,7 @@ export async function POST(request: NextRequest) {
     const response = await fetch('https://api.razorpay.com/v1/payments/qr_codes', {
         method: 'POST',
         headers: {
+        
             'Content-Type': 'application/json',
             'Authorization': `Basic ${credentials}`
         },

@@ -25,6 +25,7 @@ const Page = () => {
     const res = await fetch ("https://swiftshipbackend-production.up.railway.app/createuser", {
       method: "POST",
       headers: {
+        
         "Content-Type": "application/json",
       },
       body: JSON.stringify(request),

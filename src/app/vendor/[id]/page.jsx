@@ -16,6 +16,7 @@ export default function Page({ params }) {
     let res = await fetch("https://swiftshipbackend-production.up.railway.app/getrestaurantbyid", {
       method: "POST",
       headers: {
+        
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -28,6 +29,7 @@ export default function Page({ params }) {
     res = await fetch("https://swiftshipbackend-production.up.railway.app/getordersbyrestaurant", {
       method: "POST",
       headers: {
+        
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -52,6 +54,7 @@ export default function Page({ params }) {
     let res = await fetch("https://swiftshipbackend-production.up.railway.app/updateorderstatus", {
       method: "POST",
       headers: {
+        
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -249,7 +252,7 @@ export default function Page({ params }) {
                         <tbody>
                           {/* Example expanded order details */}
                           {selectedOrder.order_items.map((item, key) => (
-                            <tr className="border-b border-red-200" key={index}>
+                            <tr className="border-b border-red-200" key={key}>
                               <td className="py-2 px-4">{item.item}</td>
                               <td className="py-2 px-4">{item.quantity}</td>
                               <td className="py-2 px-4">₹{item.price}</td>

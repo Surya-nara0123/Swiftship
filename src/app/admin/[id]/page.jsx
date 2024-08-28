@@ -14,12 +14,14 @@ export default function Page({ params }) {
   const [description, setDescription] = useState("");
   const [isVegetarian, setIsVegetarian] = useState(false);
   const [isRegular, setIsRegular] = useState(false);
+  const [availableTime, setAvailableTime] = useState("0");
 
   const getUserName = async () => {
     try {
       const res = await fetch("/api/getToken", {
         method: "POST",
         headers: {
+          "X-API-Key": process.env.API_KEY,
           "Content-Type": "application/json",
         },
       });
@@ -41,6 +43,7 @@ export default function Page({ params }) {
         {
           method: "POST",
           headers: {
+            "X-API-Key": process.env.API_KEY,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
@@ -53,20 +56,6 @@ export default function Page({ params }) {
       setFoodItems(items);
       setFilteredFoodItems(items);
       if (res.status !== 200 || items.length === 0) {
-        setFoodItems([
-          {
-            name: "No Food Items",
-            price: "0",
-            description: "No Food Items Available",
-          },
-        ]);
-        setFilteredFoodItems([
-          {
-            name: "No Food Items",
-            price: "0",
-            description: "No Food Items Available",
-          },
-        ]);
       }
     } catch (error) {
       console.log(error);
@@ -85,7 +74,7 @@ export default function Page({ params }) {
       const query = searchQuery.toLowerCase();
       setFilteredFoodItems(
         foodItems.filter((item) =>
-          (item.name ? item.name.toLowerCase() : "").includes(query)
+          (item.Item ? item.Item.toLowerCase() : "").includes(query)
         )
       );
     }
@@ -93,22 +82,29 @@ export default function Page({ params }) {
 
   const handleEditClick = (item) => {
     setEditingItem(item);
-    setName(item.name);
-    setPrice(item.price);
-    setDescription(item.description);
-    setIsVegetarian(item.is_veg);
-    setIsRegular(item.is_regular);
+    setName(item.Item);
+    setPrice(item.Price);
+    setDescription(item.Ingredients);
+    setIsVegetarian(item.IsVeg);
+    setIsRegular(item.IsRegular);
     setIsModalOpen(true);
   };
 
   const handleToggleAvailability = async (item) => {
-    const updatedItem = { ...item, IsAvailable: !item.IsAvailable };
+    let updatedItem = { ...item, IsAvailable: !item.IsAvailable };
+    setFoodItems((prevItems) =>
+      prevItems.map((i) => (i.UID === item.UID ? updatedItem : i))
+    );
+    setFilteredFoodItems((prevItems) =>
+      prevItems.map((i) => (i.UID === item.UID ? updatedItem : i))
+    );
     try {
       const res = await fetch(
         "https://swiftshipbackend-production.up.railway.app/changeavailability",
         {
           method: "POST",
           headers: {
+            "X-API-Key": process.env.API_KEY,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
@@ -116,81 +112,135 @@ export default function Page({ params }) {
           }),
         }
       );
+      updatedItem = { ...item, IsAvailable: !item.IsAvailable };
       // console.log(res);
-      if (res.status === 200) {
+      if (res.status != 200) {
         setFoodItems((prevItems) =>
           prevItems.map((i) => (i.UID === item.UID ? updatedItem : i))
         );
         setFilteredFoodItems((prevItems) =>
           prevItems.map((i) => (i.UID === item.UID ? updatedItem : i))
         );
-      } 
+      }
     } catch (error) {
+      updatedItem = { ...item, IsAvailable: !item.IsAvailable };
+      setFoodItems((prevItems) =>
+        prevItems.map((i) => (i.UID === item.UID ? updatedItem : i))
+      );
+      setFilteredFoodItems((prevItems) =>
+        prevItems.map((i) => (i.UID === item.UID ? updatedItem : i))
+      );
       console.log(error);
     }
   };
 
   const handleSubmit = async () => {
-    const updatedItem = {
-      id: editingItem.id,
-      name: name,
-      price: Number(price),
-      is_veg: isVegetarian,
-      rest_id: editingItem.rest_id,
-      ingredients: description,
-      is_regular: isRegular,
-    };
-
-    try {
-      const res = await fetch(
-        "https://swiftshipbackend-production.up.railway.app/updatefooditem",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updatedItem),
+    if (editingItem == null) {
+      const newItem = {
+        name: name,
+        price: Number(price),
+        is_veg: isVegetarian,
+        rest_id: Number(params.id),
+        ingredients: description,
+        is_regular: isRegular,
+        available_time: Number(availableTime),
+      };
+      console.log(newItem);
+      try {
+        const res = await fetch(
+          "https://swiftshipbackend-production.up.railway.app/addfooditems",
+          {
+            method: "POST",
+            headers: {
+              "X-API-Key": process.env.API_KEY,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newItem),
+          }
+        );
+        console.log(res);
+        if (res.status === 200) {
+          const data = await res.json();
+          const item = data["food_item"];
+          setFoodItems((prevItems) => [...prevItems, item]);
+          setFilteredFoodItems((prevItems) => [...prevItems, item]);
+          setIsModalOpen(false);
         }
-      );
-      if (res.status === 200) {
-        setFoodItems((prevItems) =>
-          prevItems.map((item) =>
-            item.id === updatedItem.id ? updatedItem : item
-          )
-        );
-        setFilteredFoodItems((prevItems) =>
-          prevItems.map((item) =>
-            item.id === updatedItem.id ? updatedItem : item
-          )
-        );
-        setIsModalOpen(false);
+
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
+    } else {
+      const updatedItem = {
+        uid: editingItem.UID,
+        name: name,
+        price: Number(price),
+        is_veg: isVegetarian,
+        rest_id: Number(params.id),
+        ingredients: description,
+        is_regular: isRegular,
+        available_time: Number(availableTime),
+      };
+
+      try {
+        const res = await fetch(
+          "https://swiftshipbackend-production.up.railway.app/editfooditem",
+          {
+            method: "POST",
+            headers: {
+              "X-API-Key": process.env.API_KEY,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(updatedItem),
+          }
+        );
+        if (res.status === 200) {
+          setFoodItems((prevItems) =>
+            prevItems.map((item) =>
+              item.UID === updatedItem.uid ? updatedItem : item
+            )
+          );
+          setFilteredFoodItems((prevItems) =>
+            prevItems.map((item) =>
+              item.UID === updatedItem.uid ? updatedItem : item
+            )
+          );
+          setIsModalOpen(false);
+        }
+
+      } catch (error) {
+        console.log(error);
+      }
+
+      setEditingItem(null);
     }
   };
 
   const handleDelete = async () => {
+    console.log(editingItem);
+    setFoodItems((prevItems) =>
+      prevItems.filter((item) => item.id !== editingItem.id)
+    );
+    setFilteredFoodItems((prevItems) =>
+      prevItems.filter((item) => item.id !== editingItem.id)
+    );
     try {
       const res = await fetch(
         "https://swiftshipbackend-production.up.railway.app/deletefooditem",
         {
           method: "POST",
           headers: {
+            
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ id: editingItem.id }),
+          body: JSON.stringify({ foodItemID: editingItem.UID }),
         }
       );
-      if (res.status === 200) {
-        setFoodItems((prevItems) =>
-          prevItems.filter((item) => item.id !== editingItem.id)
-        );
-        setFilteredFoodItems((prevItems) =>
-          prevItems.filter((item) => item.id !== editingItem.id)
-        );
-        setIsModalOpen(false);
+      if (res.status != 200) {
+        setFoodItems((prevItems) => [...prevItems, editingItem]);
+        setFilteredFoodItems((prevItems) => [...prevItems, editingItem]);
       }
+      setIsModalOpen(false);
     } catch (error) {
       console.log(error);
     }
@@ -310,6 +360,16 @@ export default function Page({ params }) {
                 onChange={(e) => setPrice(e.target.value)}
                 className="w-full p-2 mb-4 border border-gray-300 rounded"
               />
+              <select
+                value={availableTime}
+                onChange={(e) => setAvailableTime(e.target.value)}
+                className="w-full p-2 mb-4 border border-gray-300 rounded"
+              >
+                <option value="0">Available At All Times</option>
+                <option value="1">BreakFast</option>
+                <option value="2">Lunch</option>
+                <option value="3">Dinner</option>
+              </select>
               <div className="mb-4">
                 <label className="inline-flex items-center">
                   <input

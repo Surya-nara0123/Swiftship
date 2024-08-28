@@ -188,6 +188,7 @@ export default function Page({ params }) {
         {
           method: "POST",
           headers: {
+        
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ "id": Number(params.id) }),
@@ -212,13 +213,14 @@ export default function Page({ params }) {
       const response = await fetch("https://swiftshipbackend-production.up.railway.app/getfooditemsbyrestaurant", {
         method: "POST",
         headers: {
+        
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ "rest_id": Number(params.id) }),
       }
       );
       const body = await response.json();
-      console.log(body["food_items"][0]);
+      console.log(body["food_items"]);
       setFoodItems(body["food_items"]);
     }
     catch (error) {

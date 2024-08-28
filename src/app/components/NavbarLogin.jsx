@@ -24,6 +24,7 @@ const NavBarItem = ({ title, classprops }) => {
     const response = await fetch("/api/makepayment", {
       method: "POST",
       headers: {
+        
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ amount: price }),
@@ -64,6 +65,7 @@ const NavBarItem = ({ title, classprops }) => {
     const response = await fetch("/api/billCalculator", {
       method: "POST",
       headers: {
+        
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ cart: cart }),

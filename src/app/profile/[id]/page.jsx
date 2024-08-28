@@ -12,6 +12,7 @@ export default function Page({ params }) {
         {
           method: "POST",
           headers: {
+        
             "Content-Type": "application/json"
           }
         }
@@ -56,6 +57,7 @@ export default function Page({ params }) {
         {
           method: "POST",
           headers: {
+        
             "Content-Type": "application/json"
           },
           body: JSON.stringify({ name: user.name })
@@ -67,6 +69,7 @@ export default function Page({ params }) {
         {
           method: "GET",
           headers: {
+        
             "Content-Type": "application/json"
           }
         }
@@ -98,6 +101,7 @@ export default function Page({ params }) {
         {
           method: "GET",
           headers: {
+        
             "Content-Type": "application/json"
           }
         }
@@ -128,6 +132,7 @@ export default function Page({ params }) {
         {
           method: "POST",
           headers: {
+        
             "Content-Type": "application/json"
           },
           body: JSON.stringify(req)
@@ -149,6 +154,7 @@ export default function Page({ params }) {
         const res1 = await fetch("/api/login", {
           method: "POST",
           headers: {
+        
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ user: req1 })

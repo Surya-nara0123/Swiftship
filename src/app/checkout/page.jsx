@@ -17,6 +17,7 @@ export default function Page() {
         {
           method: "POST",
           headers: {
+        
             "Content-Type": "application/json"
           }
         }
@@ -103,6 +104,7 @@ export default function Page() {
     let res = await fetch("https://swiftshipbackend-production.up.railway.app/getuserid", {
       method: "POST",
       headers: {
+        
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ name: userName }),
@@ -129,6 +131,7 @@ export default function Page() {
     res = await fetch("https://swiftshipbackend-production.up.railway.app/createorder", {
       method: "POST",
       headers: {
+        
         "Content-Type": "application/json",
       },
       body: JSON.stringify(order),
@@ -149,7 +152,8 @@ export default function Page() {
 
     const response = await fetch("/api/razorpay", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+         "Content-Type": "application/json" },
       body: JSON.stringify({ amount: price })
     });
     const data = await response.json();

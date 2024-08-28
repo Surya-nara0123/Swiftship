@@ -87,6 +87,7 @@ const Welcome = () => {
     const response = await fetch("https://swiftshipbackend-production.up.railway.app/getfooditems", {
       method: "GET",
       headers: {
+        
         "Content-Type": "application/json",
       },
     }
