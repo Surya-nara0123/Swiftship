@@ -88,7 +88,12 @@ export default function Page({ params }) {
   }, [modalVisible]);
 
   const handleItemClick = (item) => {
-    setModalItem(item);
+    let newItem = {}
+    newItem["Item"] = item.Item;
+    newItem.Ingredients = item.Ingredients;
+    newItem.Price = item.Price;
+    newItem["Count"] = 1;
+    setModalItem(newItem);
     setModalVisible(true);
   };
 
@@ -115,13 +120,13 @@ export default function Page({ params }) {
         <div className="flex items-center mb-4">
           <button
             className="bg-gray-500 text-white p-2 rounded-l"
-            onClick={() => handleQuantityChange(item, -1)}
+            onClick={() => {handleQuantityChange(item, -1);console.log(item)}}
           >
             -
           </button>
           <input
             type="text"
-            value={cart.find((i) => i.name === item.Item)?.count || 1}
+            value={item.Count}
             readOnly
             className="w-16 text-center"
           />
@@ -143,27 +148,24 @@ export default function Page({ params }) {
   );
 
   const handleQuantityChange = (item, delta) => {
-    const newCart = [...cart];
-    console.log(item);
-    const index = newCart.findIndex((i) => i.name === item.Item);
-    if (index == -1) {
-      console.log("hi")
-      newCart.push({ name: item.Item, count: 1 });
-      console.log(newCart);
-      setCart(newCart);
-      // localStorage.setItem("cart", JSON.stringify(newCart));
-      return;
-    }
-    console.log(newCart);
-    console.log("hiii")
-    newCart[index].count += delta;
-    setCart(newCart);
-    // localStorage.setItem("cart", JSON.stringify(newCart));
+    const newCount = item.Count + delta;
+    if (newCount < 1) return;
+    const newItem = { ...item, Count: newCount };
+    setModalItem(newItem);
   };
 
   const handleAddToCart = (item) => {
-    localStorage.setItem("cart", JSON.stringify(cart));
-    console.log(`Added ₹{quantity} of ₹{item.Item} to cart.`);
+    const newCart = [...cart];
+    const index = newCart.findIndex((i) => i.name === item.Item);
+    if (index == -1) {
+      newCart.push({ name: item.Item, count: 1 });
+      setCart(newCart);
+      localStorage.setItem("cart", JSON.stringify(newCart));
+    } else {
+      newCart[index].count += item.Count;
+      setCart(newCart);
+      localStorage.setItem("cart", JSON.stringify(newCart));
+    }
     handleCloseModal();
   };
 
