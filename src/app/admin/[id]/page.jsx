@@ -230,7 +230,7 @@ export default function Page({ params }) {
         {
           method: "POST",
           headers: {
-            
+
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ foodItemID: editingItem.UID }),
@@ -254,7 +254,7 @@ export default function Page({ params }) {
     <div>
       <Navbar />
       <div className="flex flex-col items-left justify-left min-h-screen pt-40 pb-20 px-10 bg-gray-100">
-        <div className="text-3xl font-bold">Rishabh's Food Court</div>
+        <div className="text-3xl font-bold">{"Rishabh's Food Court"}</div>
         <div className="text-5xl font-bold mt-5">Admin Dashboard</div>
         <div className="mb-10 mt-5 flex items-start gap-4">
           <button
