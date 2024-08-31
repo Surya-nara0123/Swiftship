@@ -67,12 +67,12 @@ export default function Page({ params }) {
       console.log("hii", data1);
       const res = await fetch("https://swiftshipbackend-production.up.railway.app/getactiveorders",
         {
-          method: "GET",
+          method: "POST",
           headers: {
 
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({ "id": params.id })
+          body: JSON.stringify({ "id": Number(params.id )})
         }
       );
 
@@ -82,7 +82,10 @@ export default function Page({ params }) {
 
       if (res.status !== 200) {
         setOrders([]);
+        const data = await res.json();
+        console.log(data);
         // console.log(res);
+        return;
       }
 
       const data = await res.json();
