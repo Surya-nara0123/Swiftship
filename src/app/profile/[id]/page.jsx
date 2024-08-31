@@ -12,7 +12,7 @@ export default function Page({ params }) {
         {
           method: "POST",
           headers: {
-        
+
             "Content-Type": "application/json"
           }
         }
@@ -23,7 +23,7 @@ export default function Page({ params }) {
       } else {
         const data = await res.json();
         console.log(data);
-        if(data.decodedToken.user_type == 2){
+        if (data.decodedToken.user_type == 2) {
           window.location.href = `/admin/${params.id}`;
         }
         setUser(data.decodedToken);
@@ -43,8 +43,8 @@ export default function Page({ params }) {
   React.useEffect(() => {
     getUserName();
     getCompletedOrders();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-}, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const [orders, setOrders] = React.useState([]);
   const getOrders = async () => {
@@ -57,7 +57,7 @@ export default function Page({ params }) {
         {
           method: "POST",
           headers: {
-        
+
             "Content-Type": "application/json"
           },
           body: JSON.stringify({ name: user.name })
@@ -69,9 +69,10 @@ export default function Page({ params }) {
         {
           method: "GET",
           headers: {
-        
+
             "Content-Type": "application/json"
-          }
+          },
+          body: JSON.stringify({ "id": params.id })
         }
       );
 
@@ -101,7 +102,7 @@ export default function Page({ params }) {
         {
           method: "GET",
           headers: {
-        
+
             "Content-Type": "application/json"
           }
         }
@@ -132,7 +133,7 @@ export default function Page({ params }) {
         {
           method: "POST",
           headers: {
-        
+
             "Content-Type": "application/json"
           },
           body: JSON.stringify(req)
@@ -154,7 +155,7 @@ export default function Page({ params }) {
         const res1 = await fetch("/api/login", {
           method: "POST",
           headers: {
-        
+
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ user: req1 })
@@ -182,14 +183,14 @@ export default function Page({ params }) {
                 <h2 className="text-xl font-semibold mb-4">Your Orders</h2>
                 <ul>
                   {orders.map((order, index) =>
-                   order.OrderStatusId != 0 && order.OrderStatusId != 5 && (
-                    <li key={index} className="border-b border-red-200 py-2">
-                      Order #{order.UID} -{" "}
-                      <a href={`/track/${order.UID+1234567890}`} className="text-gray-700 underline">
-                        Details
-                      </a>
-                    </li>
-                  ))}
+                    order.OrderStatusId != 0 && order.OrderStatusId != 5 && (
+                      <li key={index} className="border-b border-red-200 py-2">
+                        Order #{order.UID} -{" "}
+                        <a href={`/track/${order.UID + 1234567890}`} className="text-gray-700 underline">
+                          Details
+                        </a>
+                      </li>
+                    ))}
 
                 </ul>
                 <button className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg shadow hover:bg-red-700" onClick={() => setCompletedOrdersWindow(!completedOrdersWindow)}>
@@ -200,7 +201,7 @@ export default function Page({ params }) {
                     {completedOrders.map((order, index) => (
                       <li key={index} className="border-b border-red-200 py-2">
                         Order #{order.UID} -{" "}
-                        <a href={`/track/${order.UID+1234567890}`} className="text-gray-700 underline">
+                        <a href={`/track/${order.UID + 1234567890}`} className="text-gray-700 underline">
                           Details
                         </a>
                       </li>

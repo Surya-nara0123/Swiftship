@@ -87,7 +87,7 @@ const Welcome = () => {
     const response = await fetch("https://swiftshipbackend-production.up.railway.app/getfooditems", {
       method: "GET",
       headers: {
-        
+
         "Content-Type": "application/json",
       },
     }
@@ -209,69 +209,6 @@ const Welcome = () => {
                   ))}
                 </div>
                 <button className="shopsScrollRight absolute right-0 bg-gray-500 text-white p-2 mr-5 mb-7 rounded-full focus:outline-none">
-                  &gt;
-                </button>
-              </div>
-            </div>
-
-            {/* Order Again */}
-            <div id="again">
-              <h1 className="text-2xl lg:text-3xl mt-10">Order again</h1>
-              <div className="relative flex items-center mt-4">
-                <button className="againScrollLeft absolute left-0 bg-gray-500 text-white p-2 mb-7 rounded-full focus:outline-none">
-                  &lt;
-                </button>
-                <div
-                  ref={againScrollContainerRef}
-                  className="flex overflow-x-auto space-x-2 p-4 mx-8 w-full"
-                >
-                  <div className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4">
-                    <div
-                      className="h-48 w-full bg-gray-300 rounded-lg cursor-pointer"
-                      onClick={() =>
-                        handleItemClick("Item 6", "Description 6", "₹35")
-                      }
-                    ></div>
-                    <p className="text-center mt-2">Description 6</p>
-                  </div>
-                  <div className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4">
-                    <div
-                      className="h-48 w-full bg-gray-300 rounded-lg cursor-pointer"
-                      onClick={() =>
-                        handleItemClick("Item 7", "Description 7", "₹40")
-                      }
-                    ></div>
-                    <p className="text-center mt-2">Description 7</p>
-                  </div>
-                  <div className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4">
-                    <div
-                      className="h-48 w-full bg-gray-300 rounded-lg cursor-pointer"
-                      onClick={() =>
-                        handleItemClick("Item 8", "Description 8", "₹45")
-                      }
-                    ></div>
-                    <p className="text-center mt-2">Description 8</p>
-                  </div>
-                  <div className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4">
-                    <div
-                      className="h-48 w-full bg-gray-300 rounded-lg cursor-pointer"
-                      onClick={() =>
-                        handleItemClick("Item 9", "Description 9", "₹50")
-                      }
-                    ></div>
-                    <p className="text-center mt-2">Description 9</p>
-                  </div>
-                  <div className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4">
-                    <div
-                      className="h-48 w-full bg-gray-300 rounded-lg cursor-pointer"
-                      onClick={() =>
-                        handleItemClick("Item 10", "Description 10", "₹55")
-                      }
-                    ></div>
-                    <p className="text-center mt-2">Description 10</p>
-                  </div>
-                </div>
-                <button className="againScrollRight absolute right-0 bg-gray-500 text-white p-2 mr-5 mb-7 rounded-full focus:outline-none">
                   &gt;
                 </button>
               </div>
