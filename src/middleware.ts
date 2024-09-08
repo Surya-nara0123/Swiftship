@@ -88,6 +88,7 @@ export const config = {
         "/track/:path*",
         "/menu/:path*",
         "/profile/:path*",
+        "/admin/:path*",
         "/vendor/:path*",
         "/vendorincoming/:path*",
         "/vendorob",
