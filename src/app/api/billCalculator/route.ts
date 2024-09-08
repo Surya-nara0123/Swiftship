@@ -12,18 +12,18 @@ export async function POST(req: NextRequest) {
         });
         let body = await req.json();
         body = body.cart;
-        console.log(body);
-        console.log("Connected!");
+        //(body);
+        //("Connected!");
         const cmd = `SELECT * FROM rishabhMenu;`;
         const [result, feilds] = await con.query(cmd);
-        console.log("result", result);
+        //("result", result);
         if (!result) {
-            console.log(result, feilds);
+            //(result, feilds);
             return NextResponse.json({ message: "Menu Not Exists" }, { status: 404 });
         }
         let price = 0;
         for(let i=0;i<body.length;i++){
-            console.log(body[i].name);
+            //(body[i].name);
             (result as any[]).forEach((element:any) => {
                 if(body[i].name==element.name){
                     price += element.price*body[i].count;
@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
             }
         con.commit();
         con.end();
-        console.log(price);
+        //(price);
         return NextResponse.json(price, { status: 200 });
 
     } catch (e) {

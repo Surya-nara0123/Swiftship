@@ -79,9 +79,9 @@ const Welcome = () => {
     const response = await fetch(
       "https://swiftshipbackend-production.up.railway.app/getrestaurants"
     );
-    // console.log(response);
+    // //(response);
     const data = await response.json();
-    // console.log(data["result"][0]);
+    // //(data["result"][0]);
     setRestaurants(data["result"]);
   };
 
@@ -96,8 +96,8 @@ const Welcome = () => {
       }
     );
     const body = await response.json();
-    // console.log(body["food_items"][0]);
-    // console.log(locationName(body["food_items"][0]));
+    // //(body["food_items"][0]);
+    // //(locationName(body["food_items"][0]));
     setFoodItems(body["food_items"]);
   };
 
@@ -136,7 +136,7 @@ const Welcome = () => {
     const cart = localStorage.getItem("cart");
     if (cart) {
       const data = await JSON.parse(cart);
-      // console.log(data);
+      // //(data);
       setCart(data);
     }
   };
@@ -171,7 +171,7 @@ const Welcome = () => {
                             <div
                               className="h-48 w-full bg-gray-300 rounded-lg cursor-pointer text-black"
                               onClick={() => {
-                                console.log(locationName(foodItem));
+                                //(locationName(foodItem));
                                 handleItemClick(
                                   foodItem.Item,
                                   foodItem.Ingredients,
@@ -274,7 +274,7 @@ const Welcome = () => {
                   onClick={() => {
                     let newCart = cart;
                     let found = false;
-                    // console.log(newCart, cart);
+                    // //(newCart, cart);
                     for (let i = 0; i < newCart.length; i++) {
                       if (newCart[i].name == modalContent.name) {
                         if (modalContent.quantity) {
@@ -292,7 +292,7 @@ const Welcome = () => {
                       }
                     }
                     if (!found) {
-                      console.log("not found");
+                      //("not found");
                       newCart.push({
                         name: modalContent.name,
                         count: modalContent.quantity
@@ -300,7 +300,7 @@ const Welcome = () => {
                           : 1,
                       });
                     }
-                    // console.log(newCart);
+                    // //(newCart);
                     localStorage.setItem("cart", JSON.stringify(newCart));
                     setCart(newCart);
                     setIsModalOpen(false);

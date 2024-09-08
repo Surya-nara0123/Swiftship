@@ -14,7 +14,7 @@ const Page = () => {
   });
 
   const onSignup = async () => {
-    // console.log(user);
+    // //(user);
     const request = {
       "name": user.username,
       "email": user.email,
@@ -32,10 +32,10 @@ const Page = () => {
     });
     const body = await res.json();
     if (res.status !== 200) {
-      console.log(body);
+      //(body);
       return;
     }
-    console.log("User created successfully");
+    //("User created successfully");
     window.location.href = "/login";
   };
 

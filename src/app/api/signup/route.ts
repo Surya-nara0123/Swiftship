@@ -11,18 +11,18 @@ export async function POST(request:Request) {
             idleTimeout: 10000,
 
         });
-        console.log("Connected!");
+        //("Connected!");
         const body = await request.json();
         const cmd = `INSERT INTO userDetails (email, password, username, mobile) VALUES ('${body.email}', '${body.password}', '${body.username}', '${body.mobile}');`;
         const [result, feilds] = await con.query(cmd);
-        console.log(result, feilds);
-        console.log("hiii");
+        //(result, feilds);
+        //("hiii");
         con.commit();
         con.end();
     } catch (error) {
-        console.log(error);
+        //(error);
         return Response.json({ message: "Error in creating user" }, { status: 500 })
     }
-    console.log("User created successfully");
+    //("User created successfully");
     return Response.json({ message: "User created successfully" }, { status: 200 })
 }

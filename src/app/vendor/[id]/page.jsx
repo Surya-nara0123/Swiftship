@@ -24,7 +24,7 @@ export default function Page({ params }) {
       }),
     });
     let data = await res.json();
-    // console.log(data);
+    // //(data);
     setRestaurant(data["result"]["name"]);
     res = await fetch("https://swiftshipbackend-production.up.railway.app/getordersbyrestaurant", {
       method: "POST",
@@ -44,7 +44,7 @@ export default function Page({ params }) {
       });
       data["orders"][i].amount = sum;
     }
-    // console.log(data);
+    // //(data);
     setOrders(data["orders"]);
     setWindowLoaded(true);
   };
@@ -63,13 +63,13 @@ export default function Page({ params }) {
       }),
     });
     let data = await res.json();
-    // console.log(data);
+    // //(data);
   }
 
   useEffect(() => {
     const intervalId = setInterval(() => {
       // Increment the counter
-      // console.log("Counter incremented");
+      // //("Counter incremented");
       getOrders();
       setCounter((prevCounter) => prevCounter + 1);
     }, 2000); // Interval in milliseconds (e.g., 1000ms = 1 second)
@@ -80,7 +80,7 @@ export default function Page({ params }) {
 }, []);
 
   const handleOpenModal = (order, index) => {
-    console.log(index);
+    //(index);
     setSelectedOrder(order);
     setSelectedIndex(index);
     setIsModalOpen(true);
@@ -92,7 +92,7 @@ export default function Page({ params }) {
   };
 
   const moveOrder = async (status) => {
-    // console.log("Moving order to status", status, selectedIndex);
+    // //("Moving order to status", status, selectedIndex);
     let newOrders = [...orders];
     newOrders[selectedIndex].order_status = status;
     setOrders(newOrders);

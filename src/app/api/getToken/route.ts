@@ -6,17 +6,17 @@ export async function POST(request: NextRequest) {
     try {
         const cookieStore = cookies();
         const data = cookieStore.getAll();
-        // console.log(data);
+        // //(data);
         const token = cookieStore.get("token") || null;
         // const data1 = request.cookies.getAll();
-        // console.log(data1);
+        // //(data1);
         if (!token) {
             return NextResponse.json({ message: "Cookie Not Exists" }, { status: 200 });
         }
         const decodedToken = jwt.verify(token.value, "secret");
         return NextResponse.json({ decodedToken }, { status: 200 });
     } catch (error) {
-        console.log(error);
+        //(error);
         if (error.name === "TokenExpiredError") {
             return NextResponse.json({ message: "Token Expired" }, { status: 200 });
         }

@@ -120,7 +120,7 @@ export default function Page({ params }) {
         <div className="flex items-center mb-4">
           <button
             className="bg-gray-500 text-white p-2 rounded-l"
-            onClick={() => {handleQuantityChange(item, -1);console.log(item)}}
+            onClick={() => {handleQuantityChange(item, -1);//(item)}}
           >
             -
           </button>
@@ -184,7 +184,7 @@ export default function Page({ params }) {
 
 
   const getRestaurant = async () => {
-    // console.log(params);
+    // //(params);
     try {
       const res = await fetch("https://swiftshipbackend-production.up.railway.app/getrestaurantbyid",
         {
@@ -198,10 +198,10 @@ export default function Page({ params }) {
       );
       const body = await res.json();
       if (res.status !== 200) {
-        console.log(body);
+        //(body);
         return;
       }
-      // console.log(body);
+      // //(body);
       setRestaurant(body["result"]);
       setIsValid(true);
     }
@@ -222,7 +222,7 @@ export default function Page({ params }) {
       }
       );
       const body = await response.json();
-      console.log(body["food_items"]);
+      //(body["food_items"]);
       setFoodItems(body["food_items"]);
     }
     catch (error) {

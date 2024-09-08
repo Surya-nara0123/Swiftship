@@ -22,7 +22,7 @@ export default function Page({ params }) {
       },
     });
     const data = await res.json();
-    // console.log(data);
+    // //(data);
     let newOrderItems = [];
     for (let item of orderItems) {
       for (let food of data["food_items"]) {
@@ -56,7 +56,7 @@ export default function Page({ params }) {
       }
     )
     let data = await res.json();
-    // console.log(data);
+    // //(data);
     let orderItems = data["order"]["order_items"];
     addPricesToOrderItems(orderItems);
     setFullOrder(data["order"]);
@@ -74,7 +74,7 @@ export default function Page({ params }) {
   useEffect(() => {
     const intervalId = setInterval(() => {
       // Increment the counter
-      // console.log("Counter incremented");
+      // //("Counter incremented");
       getOrder();
       setCounter((prevCounter) => prevCounter + 1);
     }, 2000); // Interval in milliseconds (e.g., 1000ms = 1 second)

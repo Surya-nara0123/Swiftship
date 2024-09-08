@@ -13,18 +13,18 @@ export async function middleware(request: NextRequest) {
             const token = request.cookies.get("token")?.value;
 
             if (!token) {
-                console.log("Cookie Not Exists");
+                //("Cookie Not Exists");
                 return NextResponse.redirect(new URL('/login', request.url));
             }
 
             const secret = new TextEncoder().encode("secret");
             const { payload } = await jwtVerify(token, secret);
             if (!payload) {
-                console.log("Invalid Token");
+                //("Invalid Token");
                 return NextResponse.redirect(new URL('/login', request.url));
             }
             if ((payload.user_type != 1) && !(request.nextUrl.pathname.startsWith("/profile"))) {
-                console.log("Invalid User Type");
+                //("Invalid User Type");
                 return NextResponse.redirect(new URL('/login', request.url));
             }
 
@@ -32,7 +32,7 @@ export async function middleware(request: NextRequest) {
             return NextResponse.next();
 
         } catch (error) {
-            console.log(error);
+            //(error);
             return NextResponse.redirect(new URL('/login', request.url));
         }
     }
@@ -44,20 +44,20 @@ export async function middleware(request: NextRequest) {
             const token = request.cookies.get("token")?.value;
 
             if (!token) {
-                console.log("Cookie Not Exists");
+                //("Cookie Not Exists");
                 return NextResponse.redirect(new URL('/', request.url));
             }
 
             const secret = new TextEncoder().encode("secret");
             const { payload } = await jwtVerify(token, secret);
             if (!payload) {
-                console.log("Invalid Token");
+                //("Invalid Token");
                 return NextResponse.redirect(new URL('/', request.url));
             }
             if (payload.user_type != 2) {
                 toast.error("Invalid User Type");
                 // await sleep(2000);
-                // console.log("Invalid User Type");
+                // //("Invalid User Type");
                 return NextResponse.redirect(new URL('/', request.url));
             }
 
@@ -65,7 +65,7 @@ export async function middleware(request: NextRequest) {
             return NextResponse.next();
 
         } catch (error) {
-            console.log(error);
+            //(error);
             return NextResponse.redirect(new URL('/login', request.url));
         }
     }

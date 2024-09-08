@@ -15,20 +15,20 @@ const NavBarItem = ({ title, classprops, userName }) => {
     <li
       className={`mx-4 cursor-pointer ${classprops}`}
       onClick={() => {
-        console.log(userName);
+        //(userName);
         if (title === "Contact Us") {
           window.location.href = "/contact";
         } else if (title === "Services") {
           window.location.href = "/services";
         } else if (title === "My Cart") {
-          console.log(userName);
+          //(userName);
           if (userName === "") {
             toast.error("Please login to view your cart");
             return;
           }
           window.location.href = "/cart";
         } else if (title === "Account") {
-          // console.log(userName);
+          // //(userName);
           window.location.href = `/profile/${userName}`;
         } else if( title == "Logout"){
           axios.post("/api/logout").then((res) => {
@@ -67,7 +67,7 @@ const Navbar = () => {
     if (userName === "") {
       return;
     }
-    console.log(window.location.href);
+    //(window.location.href);
     let res = await fetch(
       "https://swiftshipbackend-production.up.railway.app/getuserid",
       {
@@ -82,7 +82,7 @@ const Navbar = () => {
       }
     );
     let data = await res.json();
-    // console.log(data);
+    // //(data);
     if (data["uid"] == 0) {
       res = await fetch(
         "https://swiftshipbackend-production.up.railway.app/getresturantid",
@@ -98,13 +98,13 @@ const Navbar = () => {
         }
       );
       data = await res.json();
-      console.log(data.result);
+      //(data.result);
       data = data["result"];
     }
     setUserId(data["uid"]);
   };
   useEffect(() => {
-    // console.log(userName);
+    // //(userName);
     getUserId();
   }, [userName]);
 
@@ -118,19 +118,19 @@ const Navbar = () => {
       });
       if (res.status !== 200) {
         setUserName("");
-        // console.log(res);
+        // //(res);
         return;
       }
       const body = await res.json();
       if (body["message"] == "Token Expired") {
-        // console.log("Token Expired");
+        // //("Token Expired");
         setUserName("");
         return;
       }
-      // console.log(body);
+      // //(body);
       setUserName(body["decodedToken"]["name"]);
     } catch (error) {
-      console.log(error);
+      //(error);
     }
   };
 

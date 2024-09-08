@@ -11,10 +11,10 @@ export async function GET(request: NextRequest) {
             idleTimeout: 10000,
 
         });
-        console.log("Connected!");
+        //("Connected!");
         const cmd = `SElECT * FROM rishabhMenu;`;
         const [result, feilds] = await con.query(cmd);
-        // console.log("result", result);
+        // //("result", result);
         if (!result) {
             return NextResponse.json({ message: "Menu Not Exists" }, { status: 404 })
         }
@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
         con.end();
         return NextResponse.json(result, { status: 200 })
     } catch (error) {
-        console.log(error);
+        //(error);
         return NextResponse.json({ message: "Error" }, { status: 500 })
     }
 }

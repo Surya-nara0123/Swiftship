@@ -25,19 +25,19 @@ export default function Page() {
       );
       if (res.status !== 200) {
         setUserName("");
-        // console.log(res);
+        // //(res);
         return;
       }
       const body = await res.json();
       if (body["message"] == "Token Expired") {
-        // console.log("Token Expired");
+        // //("Token Expired");
         setUserName("");
         return;
       }
-      // console.log(body);
+      // //(body);
       setUserName(body["decodedToken"]["name"]);
     } catch (error) {
-      console.log(error);
+      //(error);
     }
   };
 
@@ -55,13 +55,13 @@ export default function Page() {
     if (cart.length === 0) return;
     const res = await fetch("https://swiftshipbackend-production.up.railway.app/getFooditems")
     const data = await res.json()
-    console.log(data["food_items"])
+    //(data["food_items"])
     for (let item of cart) {
       for (let food_item of data["food_items"]) {
-        console.log(item.name, food_item.Item)
+        //(item.name, food_item.Item)
         if (item.name === food_item.Item) {
           setRest_id(food_item.RestuarantId)
-          console.log(food_item.RestuarantId)
+          //(food_item.RestuarantId)
           item.price = food_item.Price;
         }
       }
@@ -118,7 +118,7 @@ export default function Page() {
       orderDetail.quantity = item.count;
       orderDetails.push(orderDetail);
     }
-    console.log(orderDetails);
+    //(orderDetails);
     const order = {
       user_id:data.uid,
       rest_id: rest_id,
@@ -128,7 +128,7 @@ export default function Page() {
       order_status: isCash ? 1 : 2,
       order_items: orderDetails,
     };
-    console.log(order);
+    //(order);
     res = await fetch("https://swiftshipbackend-production.up.railway.app/createorder", {
       method: "POST",
       headers: {
@@ -147,7 +147,7 @@ export default function Page() {
     }
     toast.success("Order Placed Successfully");
     data = await res.json();
-    console.log(data);
+    //(data);
     localStorage.setItem("cart", JSON.stringify([]));
     window.location.href = `/track/${data["order"]+1234567890}`;
   };

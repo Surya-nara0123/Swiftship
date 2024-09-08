@@ -32,7 +32,7 @@ export default function Page({ params }) {
         setUser(data.decodedToken);
       }
     } catch (error) {
-      console.log(error);
+      //(error);
     }
   };
 
@@ -58,7 +58,7 @@ export default function Page({ params }) {
       if (res.status !== 200 || items.length === 0) {
       }
     } catch (error) {
-      console.log(error);
+      //(error);
     }
   };
 
@@ -113,7 +113,7 @@ export default function Page({ params }) {
         }
       );
       updatedItem = { ...item, IsAvailable: !item.IsAvailable };
-      // console.log(res);
+      // //(res);
       if (res.status != 200) {
         setFoodItems((prevItems) =>
           prevItems.map((i) => (i.UID === item.UID ? updatedItem : i))
@@ -130,7 +130,7 @@ export default function Page({ params }) {
       setFilteredFoodItems((prevItems) =>
         prevItems.map((i) => (i.UID === item.UID ? updatedItem : i))
       );
-      console.log(error);
+      //(error);
     }
   };
 
@@ -145,7 +145,7 @@ export default function Page({ params }) {
         is_regular: isRegular,
         available_time: Number(availableTime),
       };
-      console.log(newItem);
+      //(newItem);
       try {
         const res = await fetch(
           "https://swiftshipbackend-production.up.railway.app/addfooditems",
@@ -158,7 +158,7 @@ export default function Page({ params }) {
             body: JSON.stringify(newItem),
           }
         );
-        console.log(res);
+        //(res);
         if (res.status === 200) {
           const data = await res.json();
           const item = data["food_item"];
@@ -168,7 +168,7 @@ export default function Page({ params }) {
         }
 
       } catch (error) {
-        console.log(error);
+        //(error);
       }
     } else {
       const updatedItem = {
@@ -209,7 +209,7 @@ export default function Page({ params }) {
         }
 
       } catch (error) {
-        console.log(error);
+        //(error);
       }
 
       setEditingItem(null);
@@ -217,7 +217,7 @@ export default function Page({ params }) {
   };
 
   const handleDelete = async () => {
-    console.log(editingItem);
+    //(editingItem);
     setFoodItems((prevItems) =>
       prevItems.filter((item) => item.id !== editingItem.id)
     );
@@ -242,7 +242,7 @@ export default function Page({ params }) {
       }
       setIsModalOpen(false);
     } catch (error) {
-      console.log(error);
+      //(error);
     }
   };
 

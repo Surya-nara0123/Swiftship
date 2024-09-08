@@ -11,7 +11,7 @@ export default function Page() {
   const [address, setAddress] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log({
+    // //({
     //   vendor_name: name,
     //   sname: sname,
     //   phone: phone,

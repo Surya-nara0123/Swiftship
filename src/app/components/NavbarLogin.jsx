@@ -30,11 +30,11 @@ const NavBarItem = ({ title, classprops }) => {
       body: JSON.stringify({ amount: price }),
     });
     const data = await response.json();
-    console.log(data);
+    //(data);
   };
 
   const handeClick = async (isPositive, index) => {
-    // console.log(count);
+    // //(count);
     const newCount = [...count];
     if (isPositive) {
       newCount[index] += 1;
@@ -71,19 +71,19 @@ const NavBarItem = ({ title, classprops }) => {
       body: JSON.stringify({ cart: cart }),
     });
     const data = await response.json();
-    console.log(data);
+    //(data);
     await setPrice(data);
   };
   const handleClick = async () => {
     const response = await localStorage.getItem("cart");
-    console.log(response);
+    //(response);
     await setCart(JSON.parse(response));
     const cart = JSON.parse(response);
     const newCount = [];
     for (let i = 0; i < cart.length; i++) {
       newCount.push(cart[i]["count"]);
     }
-    console.log(newCount);
+    //(newCount);
     setCount(newCount);
     await getPrice(cart);
   };

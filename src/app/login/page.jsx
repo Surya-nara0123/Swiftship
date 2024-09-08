@@ -37,12 +37,12 @@ const Page = () => {
     const body = await res.json();
     if (res.status !== 200) {
       setLoading(false);
-      console.log(body);
+      //(body);
       return;
     }
     if (body.length === 0) {
       setLoading(false);
-      console.log("User not found");
+      //("User not found");
       return;
     }
     let userRes = body["user"];
@@ -51,14 +51,14 @@ const Page = () => {
       const res1 = await axios.post("/api/login", {
         user: userRes,
       })
-      console.log("logged in, restaurant: ", userRes.id);
+      //("logged in, restaurant: ", userRes.id);
       window.location.href = `/admin/${userRes.id}`;
       return;
     }
     const res1 = await axios.post("/api/login", {
       user: userRes,
     })
-    console.log("logged in, user: ", userRes.id);
+    //("logged in, user: ", userRes.id);
     // router.push(`/profile/${userRes.id}`);
     setLoading(false);
     toast.success("Logged in successfully");

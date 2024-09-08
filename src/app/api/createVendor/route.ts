@@ -3,7 +3,7 @@ import Razorpay from "razorpay";
 
 export async function POST(request: NextRequest) {
     const body = await request.json();
-    // console.log(body);
+    // //(body);
     const req = {
         email: body.email,
         phone: body.phone,
@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
         },
         contact_name: body.name
     }
-    console.log(req);
+    //(req);
     const razorpay = new Razorpay({
         key_id: process.env.RAZORPAY_KEY,
         key_secret: process.env.RAZORPAY_SECRET

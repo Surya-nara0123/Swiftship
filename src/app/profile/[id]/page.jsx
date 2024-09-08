@@ -19,10 +19,10 @@ export default function Page({ params }) {
       );
       if (res.status !== 200) {
         setUser([]);
-        // console.log(res);
+        // //(res);
       } else {
         const data = await res.json();
-        console.log(data);
+        //(data);
         if (data.decodedToken.user_type == 2) {
           window.location.href = `/admin/${params.id}`;
         }
@@ -30,7 +30,7 @@ export default function Page({ params }) {
         setUser1(data.decodedToken);
       }
     } catch (error) {
-      console.log(error);
+      //(error);
     }
     // await getOrders();
   }
@@ -51,7 +51,7 @@ export default function Page({ params }) {
     if (user.length === 0) {
       return;
     }
-    console.log("hiii1", user);
+    //("hiii1", user);
     try {
       const res1 = await fetch("https://swiftshipbackend-production.up.railway.app/getuserid",
         {
@@ -64,7 +64,7 @@ export default function Page({ params }) {
         }
       );
       const data1 = await res1.json();
-      console.log("hii", data1);
+      //("hii", data1);
       const res = await fetch("https://swiftshipbackend-production.up.railway.app/getactiveorders",
         {
           method: "POST",
@@ -83,17 +83,17 @@ export default function Page({ params }) {
       if (res.status !== 200) {
         setOrders([]);
         const data = await res.json();
-        console.log(data);
-        // console.log(res);
+        //(data);
+        // //(res);
         return;
       }
 
       const data = await res.json();
-      console.log(data);
+      //(data);
       setOrders(data.orders);
     }
     catch (error) {
-      console.log(error);
+      //(error);
     }
   }
 
@@ -112,13 +112,13 @@ export default function Page({ params }) {
       );
       if (res.status !== 200) {
         setCompletedOrders([]);
-        // console.log(res);
+        // //(res);
       }
       const data = await res.json();
-      console.log(data);
+      //(data);
       setCompletedOrders(data.orders);
     } catch (error) {
-      console.log(error);
+      //(error);
     }
   }
 
@@ -130,7 +130,7 @@ export default function Page({ params }) {
       email: user1.email,
       mobile: Number(user1.mobile)
     }
-    console.log(req);
+    //(req);
     try {
       const res = await fetch("https://swiftshipbackend-production.up.railway.app/updateUser",
         {
@@ -144,11 +144,11 @@ export default function Page({ params }) {
       )
       if (res.status !== 200) {
         const data = await res.json();
-        console.log(data);
-        console.log(res);
+        //(data);
+        //(res);
       } else {
         const data = await res.json();
-        console.log(data);
+        //(data);
         // change the user data in the jwt token
         const req1 = {
           name: user1.name,
@@ -164,10 +164,10 @@ export default function Page({ params }) {
           body: JSON.stringify({ user: req1 })
         })
         const body = await res1.json();
-        console.log(body);
+        //(body);
       }
     } catch (error) {
-      console.log(error);
+      //(error);
     }
   }
   return (

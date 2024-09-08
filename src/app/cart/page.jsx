@@ -21,7 +21,7 @@ export default function Page() {
         setCart(cart);
       }
     } catch (error) {
-      console.log(error);
+      //(error);
     }
   }
 
@@ -43,7 +43,7 @@ export default function Page() {
     if (cart) {
       setWindowLoaded(true)
     }
-    console.log(cart)
+    //(cart)
     const res = await fetch("https://swiftshipbackend-production.up.railway.app/getFooditems", {
       method: "GET",
       headers: {
@@ -52,19 +52,19 @@ export default function Page() {
       }
     });
     const data = await res.json();
-    console.log(data);
+    //(data);
     setFoodItems(data["food_items"]);
     let TotalPrice = 0;
     for (let item of cartItems) {
-      console.log(typeof item, typeof data["food_items"]);
+      //(typeof item, typeof data["food_items"]);
       for (let food of data["food_items"]) {
-        console.log(food.Item);
+        //(food.Item);
         if (food.Item === item.name) {
           TotalPrice += food.Price * item.count;
         }
       }
     }
-    console.log(TotalPrice);
+    //(TotalPrice);
     setPrice(TotalPrice);
   };
 
