@@ -11,7 +11,7 @@ const monts = Montserrat_Alternates({
 
 export const metadata = {
   title: "SwiftShip - The Campus Delivery App",
-  description: "Get your food delivered, anywhere on campus!",
+  description: "Order Food from anywhere on campus",
 };
 
 export default function RootLayout({ children }) {
