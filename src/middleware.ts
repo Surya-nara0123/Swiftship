@@ -37,7 +37,8 @@ export async function middleware(request: NextRequest) {
         }
     }
     else if (request.nextUrl.pathname.startsWith("/vendor/") ||
-        request.nextUrl.pathname.startsWith("/vendorincoming")) {
+        request.nextUrl.pathname.startsWith("/vendorincoming") ||
+        request.nextUrl.pathname.startsWith("/admin")) {
 
         try {
             const token = request.cookies.get("token")?.value;
@@ -55,8 +56,8 @@ export async function middleware(request: NextRequest) {
             }
             if (payload.user_type != 2) {
                 toast.error("Invalid User Type");
-                await sleep(2000);
-                console.log("Invalid User Type");
+                // await sleep(2000);
+                // console.log("Invalid User Type");
                 return NextResponse.redirect(new URL('/', request.url));
             }
 

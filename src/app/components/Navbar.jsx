@@ -5,6 +5,7 @@ import {
   AiOutlineClose,
   AiOutlineShoppingCart,
   AiOutlineUser,
+  AiOutlineLogout,
 } from "react-icons/ai";
 import { toast } from "sonner";
 import axios from "axios";
@@ -29,6 +30,15 @@ const NavBarItem = ({ title, classprops, userName }) => {
         } else if (title === "Account") {
           // console.log(userName);
           window.location.href = `/profile/${userName}`;
+        } else if( title == "Logout"){
+          axios.post("/api/logout").then((res) => {
+            if (res.status === 200) {
+              toast.success("Logged out successfully");
+              window.location.href = "/";
+            } else {
+              toast.error("Error logging out");
+            }
+          });
         }
       }}
     >
@@ -36,13 +46,17 @@ const NavBarItem = ({ title, classprops, userName }) => {
         <AiOutlineShoppingCart className="mr-1" size={30} />
       ) : title === "Account" ? (
         <AiOutlineUser className="mr-1" size={30} />
+      ) : title === "Logout" ? (
+        <>
+          <AiOutlineLogout className="mr-1 lg: hidden" size={30} color="black" />
+          <AiOutlineLogout className="mr-1 " size={30} />
+        </>
       ) : (
         title
       )}
     </li>
   );
-}
-
+};
 
 const Navbar = () => {
   const [userName, setUserName] = useState("");
@@ -54,31 +68,35 @@ const Navbar = () => {
       return;
     }
     console.log(window.location.href);
-    let res = await fetch("https://swiftshipbackend-production.up.railway.app/getuserid", {
-      method: "POST",
-      // mode: "no-cors",
-      headers: {
-        
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: userName,
-      })
-    });
-    let data = await res.json();
-    // console.log(data);
-    if(data["uid"] == 0){
-      res = await fetch("https://swiftshipbackend-production.up.railway.app/getresturantid", {
+    let res = await fetch(
+      "https://swiftshipbackend-production.up.railway.app/getuserid",
+      {
         method: "POST",
         // mode: "no-cors",
         headers: {
-        
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           name: userName,
-        })
-      });
+        }),
+      }
+    );
+    let data = await res.json();
+    // console.log(data);
+    if (data["uid"] == 0) {
+      res = await fetch(
+        "https://swiftshipbackend-production.up.railway.app/getresturantid",
+        {
+          method: "POST",
+          // mode: "no-cors",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: userName,
+          }),
+        }
+      );
       data = await res.json();
       console.log(data.result);
       data = data["result"];
@@ -92,15 +110,12 @@ const Navbar = () => {
 
   const getUserName = async () => {
     try {
-      const res = await fetch("/api/getToken",
-        {
-          method: "POST",
-          headers: {
-        
-            "Content-Type": "application/json"
-          }
-        }
-      );
+      const res = await fetch("/api/getToken", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       if (res.status !== 200) {
         setUserName("");
         // console.log(res);
@@ -122,11 +137,11 @@ const Navbar = () => {
   useEffect(() => {
     getUserName();
     getUserId();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-}, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
-    <nav className="z-10 fixed gradient-bg-welcome w-full flex md:justify-center justify-between items-center p-2">
+    <nav className="select-none z-10 fixed gradient-bg-welcome w-full flex md:justify-center justify-between items-center p-2">
       <div className="md:flex-[0.5] flex-initial justify-center items-center lg:ml-10">
         <img
           src={"/SwiftShip-logos_red.png"}
@@ -138,7 +153,7 @@ const Navbar = () => {
         />
       </div>
       <ul className="text-black md:flex hidden list-none flex-row justify-between items-center flex-initial ml-auto">
-        {userName === "" && (
+        {userName === "" ? (
           <>
             <li
               className="text-black py-2 pl-4 rounded-full cursor-pointer hover:text-red-500"
@@ -157,6 +172,10 @@ const Navbar = () => {
               Log in
             </li>
           </>
+        ) : (
+          window.location.href.includes("profile") && (
+            <NavBarItem key={"Logout"} title={"Logout"} />
+          )
         )}
         <NavBarItem key={"Account"} title={"Account"} userName={userId} />
         <NavBarItem key={"My Cart"} title={"My Cart"} />
@@ -194,27 +213,30 @@ const Navbar = () => {
               title={"My Cart"}
               classprops="my-2 text-lg"
             />
-            <a
-              className="py-2 rounded-full cursor-pointer hover:text-red-500 text-2xl"
-              href="/signup"
-            >
-              Sign up
-            </a>
-            <li
-              className="py-2 rounded-full cursor-pointer hover:text-red-500 text-2xl"
-              onClick={() => {
-                window.location.href = "/login";
-              }}
-            >
-              Login
-            </li>
-            {["Services", "Contact Us"].map((item, index) => (
-              <NavBarItem
-                key={item + index}
-                title={item}
-                classprops="my-2 text-2xl"
-              />
-            ))}
+            {userName === "" ? (
+              <>
+                <li
+                  className="text-black py-2 pl-4 rounded-full cursor-pointer hover:text-red-500"
+                  onClick={() => {
+                    window.location.href = "/signup";
+                  }}
+                >
+                  Sign up
+                </li>
+                <li
+                  className="text-black py-2 px-7 rounded-full cursor-pointer hover:text-red-500"
+                  onClick={() => {
+                    window.location.href = "/login";
+                  }}
+                >
+                  Log in
+                </li>
+              </>
+            ) : (
+              window.location.href.includes("profile") && (
+                <NavBarItem key={"Logout"} title={"Logout"} />
+              )
+            )}
           </ul>
         )}
       </div>

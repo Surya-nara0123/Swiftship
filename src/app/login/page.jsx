@@ -7,6 +7,7 @@ import { cookies } from "next/headers.js";
 import jwt from "jsonwebtoken";
 import { CSpinner } from '@coreui/react';
 import '@coreui/coreui/dist/css/coreui.min.css'
+import { toast } from "sonner";
 // import 'bootstrap/dist/css/bootstrap.min.css'
 
 const Page = () => {
@@ -60,6 +61,7 @@ const Page = () => {
     console.log("logged in, user: ", userRes.id);
     // router.push(`/profile/${userRes.id}`);
     setLoading(false);
+    toast.success("Logged in successfully");
     window.location.href = `/profile/${userRes.id}`;
   };
 

@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import NavbarLogin from "../components/NavbarLogin";
 import axios from "axios";
 import { Button } from "../../components/ui/button";
+import { toast } from "sonner";
 
 export default function Page() {
   const [userName, setUserName] = useState("");
@@ -136,6 +137,15 @@ export default function Page() {
       },
       body: JSON.stringify(order),
     });
+    if (!res) {
+      alert("Server error. Please try again later.");
+      return;
+    }
+    if (res.status !== 200) {
+      alert("Server error. Please try again later.");
+      return;
+    }
+    toast.success("Order Placed Successfully");
     data = await res.json();
     console.log(data);
     localStorage.setItem("cart", JSON.stringify([]));

@@ -76,7 +76,9 @@ const Welcome = () => {
   const [foodItems, setFoodItems] = useState([]);
 
   const getRestaurants = async () => {
-    const response = await fetch("https://swiftshipbackend-production.up.railway.app/getrestaurants");
+    const response = await fetch(
+      "https://swiftshipbackend-production.up.railway.app/getrestaurants"
+    );
     // console.log(response);
     const data = await response.json();
     // console.log(data["result"][0]);
@@ -84,19 +86,20 @@ const Welcome = () => {
   };
 
   const getFoodItems = async () => {
-    const response = await fetch("https://swiftshipbackend-production.up.railway.app/getfooditems", {
-      method: "GET",
-      headers: {
-
-        "Content-Type": "application/json",
-      },
-    }
+    const response = await fetch(
+      "https://swiftshipbackend-production.up.railway.app/getfooditems",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
     );
     const body = await response.json();
     // console.log(body["food_items"][0]);
     // console.log(locationName(body["food_items"][0]));
     setFoodItems(body["food_items"]);
-  }
+  };
 
   useEffect(() => {
     getRestaurants();
@@ -105,7 +108,6 @@ const Welcome = () => {
     getCart();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
 
   const handleItemClick = (name, description, price) => {
     setModalContent({ name, description, price });
@@ -127,7 +129,7 @@ const Welcome = () => {
         return restaurants[i]["Name"];
       }
     }
-  }
+  };
 
   const [cart, setCart] = useState([]);
   const getCart = async () => {
@@ -158,24 +160,32 @@ const Welcome = () => {
                   ref={trendingScrollContainerRef}
                   className="flex overflow-x-auto space-x-2 p-4 mx-8 w-full"
                 >
-                  {foodItems.map((foodItem, index) =>
-                    foodItem.IsRegular == false && (
-                      <>
-                        <div className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4" key={index}>
+                  {foodItems.map(
+                    (foodItem, index) =>
+                      foodItem.IsRegular == false && (
+                        <>
                           <div
-                            className="h-48 w-full bg-gray-300 rounded-lg cursor-pointer text-black"
-                            onClick={() => {
-                              console.log(locationName(foodItem));
-                              handleItemClick(foodItem.Item, foodItem.Ingredients, foodItem.Price);
-                            }
-                            }
+                            className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4"
+                            key={index}
                           >
-                            {locationName(foodItem)}
+                            <div
+                              className="h-48 w-full bg-gray-300 rounded-lg cursor-pointer text-black"
+                              onClick={() => {
+                                console.log(locationName(foodItem));
+                                handleItemClick(
+                                  foodItem.Item,
+                                  foodItem.Ingredients,
+                                  foodItem.Price
+                                );
+                              }}
+                            >
+                              {locationName(foodItem)}
+                            </div>
+                            <p className="text-center mt-2">{foodItem.Item}</p>
                           </div>
-                          <p className="text-center mt-2">{foodItem.Item}</p>
-                        </div>
-                      </>
-                    ))}
+                        </>
+                      )
+                  )}
                 </div>
                 <button className="trendingScrollRight absolute right-0 bg-gray-500 text-white p-2 mr-5 mb-7 rounded-full focus:outline-none">
                   &gt;
@@ -201,10 +211,7 @@ const Welcome = () => {
                       onClick={() => router.push(`/menu/${restaurant["UID"]}`)}
                     >
                       <div className="h-48 w-full bg-gray-300 rounded-lg"></div>
-                      <p className="text-center mt-2">{
-                        restaurant["Name"]
-                      }
-                      </p>
+                      <p className="text-center mt-2">{restaurant["Name"]}</p>
                     </div>
                   ))}
                 </div>
@@ -229,7 +236,9 @@ const Welcome = () => {
                 </button>
                 <h2 className="text-2xl font-bold">{modalContent.name}</h2>
                 <p className="mt-2">{modalContent.description}</p>
-                <p className="mt-2 text-lg font-semibold">{modalContent.price}</p>
+                <p className="mt-2 text-lg font-semibold">
+                  {modalContent.price}
+                </p>
                 <div className="mt-4 flex items-center">
                   <button
                     className="bg-gray-200 p-2 rounded-l"
@@ -260,31 +269,43 @@ const Welcome = () => {
                     +
                   </button>
                 </div>
-                <button className="mt-4 bg-blue-500 text-white p-2 rounded"
-                  onClick={
-                    () => {
-                      let newCart = cart;
-                      let found = false;
-                      // console.log(newCart, cart);
-                      for (let i = 0; i < newCart.length; i++) {
-                        if (newCart[i].name == modalContent.name) {
+                <button
+                  className="mt-4 bg-blue-500 text-white p-2 rounded"
+                  onClick={() => {
+                    let newCart = cart;
+                    let found = false;
+                    // console.log(newCart, cart);
+                    for (let i = 0; i < newCart.length; i++) {
+                      if (newCart[i].name == modalContent.name) {
+                        if (modalContent.quantity) {
                           newCart[i].count += modalContent.quantity;
-                          found = true;
-                          break;
+                        } else {
+                          if (newCart[i].count) {
+                            newCart[i].count += 1;
+                          } else {
+                            newCart[i].count = 1;
+                          }
                         }
+                        // newCart[i].count += modalContent.quantity;
+                        found = true;
+                        break;
                       }
-                      if (!found) {
-                        newCart.push({
-                          name: modalContent.name,
-                          count: modalContent.quantity,
-                        });
-                      }
-                      // console.log(newCart);
-                      localStorage.setItem("cart", JSON.stringify(newCart));
-                      setCart(newCart);
-                      setIsModalOpen(false);
                     }
-                  }>
+                    if (!found) {
+                      console.log("not found");
+                      newCart.push({
+                        name: modalContent.name,
+                        count: modalContent.quantity
+                          ? modalContent.quantity
+                          : 1,
+                      });
+                    }
+                    // console.log(newCart);
+                    localStorage.setItem("cart", JSON.stringify(newCart));
+                    setCart(newCart);
+                    setIsModalOpen(false);
+                  }}
+                >
                   Add to cart
                 </button>
               </div>
