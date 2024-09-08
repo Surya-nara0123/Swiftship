@@ -88,7 +88,7 @@ export default function Page({ params }) {
   }, [modalVisible]);
 
   const handleItemClick = (item) => {
-    let newItem = {}
+    let newItem = {};
     newItem["Item"] = item.Item;
     newItem.Ingredients = item.Ingredients;
     newItem.Price = item.Price;
@@ -120,7 +120,9 @@ export default function Page({ params }) {
         <div className="flex items-center mb-4">
           <button
             className="bg-gray-500 text-white p-2 rounded-l"
-            onClick={() => {handleQuantityChange(item, -1);//(item)}}
+            onClick={() => {
+              handleQuantityChange(item, -1);
+            }}
           >
             -
           </button>
@@ -182,18 +184,17 @@ export default function Page({ params }) {
     }
   };
 
-
   const getRestaurant = async () => {
     // //(params);
     try {
-      const res = await fetch("https://swiftshipbackend-production.up.railway.app/getrestaurantbyid",
+      const res = await fetch(
+        "https://swiftshipbackend-production.up.railway.app/getrestaurantbyid",
         {
           method: "POST",
           headers: {
-        
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ "id": Number(params.id) }),
+          body: JSON.stringify({ id: Number(params.id) }),
         }
       );
       const body = await res.json();
@@ -204,31 +205,30 @@ export default function Page({ params }) {
       // //(body);
       setRestaurant(body["result"]);
       setIsValid(true);
-    }
-    catch (error) {
+    } catch (error) {
       console.error("Error:", error);
     }
   };
 
   const getFoodItems = async () => {
     try {
-      const response = await fetch("https://swiftshipbackend-production.up.railway.app/getfooditemsbyrestaurant", {
-        method: "POST",
-        headers: {
-        
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ "rest_id": Number(params.id) }),
-      }
+      const response = await fetch(
+        "https://swiftshipbackend-production.up.railway.app/getfooditemsbyrestaurant",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ rest_id: Number(params.id) }),
+        }
       );
       const body = await response.json();
       //(body["food_items"]);
       setFoodItems(body["food_items"]);
-    }
-    catch (error) {
+    } catch (error) {
       console.error("Error:", error);
     }
-  }
+  };
 
   useEffect(() => {
     getRestaurant();
@@ -252,9 +252,11 @@ export default function Page({ params }) {
               </h1>
               {/* Section start */}
               <div id="trending">
-                {isSpecialsPresent ?
+                {isSpecialsPresent ? (
                   <>
-                    <h1 className="text-2xl lg:text-3xl mt-10">Special foods</h1>
+                    <h1 className="text-2xl lg:text-3xl mt-10">
+                      Special foods
+                    </h1>
                     <div className="relative flex items-center mt-4">
                       <button className="trendingScrollLeft absolute left-0 bg-gray-500 text-white p-2 mb-7 rounded-full focus:outline-none">
                         &lt;
@@ -263,28 +265,34 @@ export default function Page({ params }) {
                         ref={trendingScrollContainerRef}
                         className="flex overflow-x-auto space-x-2 p-4 mx-8 w-full"
                       >
-                        {foodItems.map((item) =>
-                          !item.IsRegular && (
-                            <div
-                              key={item.id}
-                              className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4 cursor-pointer"
-                              onClick={() => handleItemClick(item)}
-                            >
-                              <div className="h-48 w-full bg-gray-300 rounded-lg"></div>
-                              <p className="text-center mt-2">{item.Item}</p>
-                            </div>
-                          ))}
+                        {foodItems.map(
+                          (item) =>
+                            !item.IsRegular && (
+                              <div
+                                key={item.id}
+                                className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4 cursor-pointer"
+                                onClick={() => handleItemClick(item)}
+                              >
+                                <div className="h-48 w-full bg-gray-300 rounded-lg"></div>
+                                <p className="text-center mt-2">{item.Item}</p>
+                              </div>
+                            )
+                        )}
                       </div>
                       <button className="trendingScrollRight absolute right-0 bg-gray-500 text-white p-2 mr-5 mb-7 rounded-full focus:outline-none">
                         &gt;
                       </button>
                     </div>
                   </>
-                  : (<></>)}
+                ) : (
+                  <></>
+                )}
               </div>
               {/* Section end */}
               <div id="breakfast">
-                <h1 className="text-2xl lg:text-3xl mt-10">Available at all times</h1>
+                <h1 className="text-2xl lg:text-3xl mt-10">
+                  Available at all times
+                </h1>
                 <div className="relative flex items-center mt-4">
                   <button className="bfScrollLeft absolute left-0 bg-gray-500 text-white p-2 mb-7 rounded-full focus:outline-none">
                     &lt;
@@ -293,17 +301,20 @@ export default function Page({ params }) {
                     ref={bfScrollContainerRef}
                     className="flex overflow-x-auto space-x-2 p-4 mx-8 w-full"
                   >
-                    {foodItems.map((item) =>
-                      (item.IsRegular && item.AvailableTime == 0) && (
-                        <div
-                          key={item.id}
-                          className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4 cursor-pointer"
-                          onClick={() => handleItemClick(item)}
-                        >
-                          <div className="h-48 w-full bg-gray-300 rounded-lg"></div>
-                          <p className="text-center mt-2">{item.Item}</p>
-                        </div>
-                      ))}
+                    {foodItems.map(
+                      (item) =>
+                        item.IsRegular &&
+                        item.AvailableTime == 0 && (
+                          <div
+                            key={item.id}
+                            className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4 cursor-pointer"
+                            onClick={() => handleItemClick(item)}
+                          >
+                            <div className="h-48 w-full bg-gray-300 rounded-lg"></div>
+                            <p className="text-center mt-2">{item.Item}</p>
+                          </div>
+                        )
+                    )}
                   </div>
                   <button className="bfScrollRight absolute right-0 bg-gray-500 text-white p-2 mr-5 mb-7 rounded-full focus:outline-none">
                     &gt;
@@ -321,17 +332,20 @@ export default function Page({ params }) {
                     ref={bfScrollContainerRef}
                     className="flex overflow-x-auto space-x-2 p-4 mx-8 w-full"
                   >
-                    {foodItems.map((item) =>
-                      (item.IsRegular && item.AvailableTime == 1) && (
-                        <div
-                          key={item.id}
-                          className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4 cursor-pointer"
-                          onClick={() => handleItemClick(item)}
-                        >
-                          <div className="h-48 w-full bg-gray-300 rounded-lg"></div>
-                          <p className="text-center mt-2">{item.Item}</p>
-                        </div>
-                      ))}
+                    {foodItems.map(
+                      (item) =>
+                        item.IsRegular &&
+                        item.AvailableTime == 1 && (
+                          <div
+                            key={item.id}
+                            className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4 cursor-pointer"
+                            onClick={() => handleItemClick(item)}
+                          >
+                            <div className="h-48 w-full bg-gray-300 rounded-lg"></div>
+                            <p className="text-center mt-2">{item.Item}</p>
+                          </div>
+                        )
+                    )}
                   </div>
                   <button className="bfScrollRight absolute right-0 bg-gray-500 text-white p-2 mr-5 mb-7 rounded-full focus:outline-none">
                     &gt;
@@ -348,17 +362,20 @@ export default function Page({ params }) {
                     ref={bfScrollContainerRef}
                     className="flex overflow-x-auto space-x-2 p-4 mx-8 w-full"
                   >
-                    {foodItems.map((item) =>
-                      (item.IsRegular && item.AvailableTime == 2) && (
-                        <div
-                          key={item.id}
-                          className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4 cursor-pointer"
-                          onClick={() => handleItemClick(item)}
-                        >
-                          <div className="h-48 w-full bg-gray-300 rounded-lg"></div>
-                          <p className="text-center mt-2">{item.Item}</p>
-                        </div>
-                      ))}
+                    {foodItems.map(
+                      (item) =>
+                        item.IsRegular &&
+                        item.AvailableTime == 2 && (
+                          <div
+                            key={item.id}
+                            className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4 cursor-pointer"
+                            onClick={() => handleItemClick(item)}
+                          >
+                            <div className="h-48 w-full bg-gray-300 rounded-lg"></div>
+                            <p className="text-center mt-2">{item.Item}</p>
+                          </div>
+                        )
+                    )}
                   </div>
                   <button className="bfScrollRight absolute right-0 bg-gray-500 text-white p-2 mr-5 mb-7 rounded-full focus:outline-none">
                     &gt;
@@ -375,17 +392,20 @@ export default function Page({ params }) {
                     ref={bfScrollContainerRef}
                     className="flex overflow-x-auto space-x-2 p-4 mx-8 w-full"
                   >
-                    {foodItems.map((item) =>
-                      (item.IsRegular && item.AvailableTime == 3) && (
-                        <div
-                          key={item.id}
-                          className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4 cursor-pointer"
-                          onClick={() => handleItemClick(item)}
-                        >
-                          <div className="h-48 w-full bg-gray-300 rounded-lg"></div>
-                          <p className="text-center mt-2">{item.Item}</p>
-                        </div>
-                      ))}
+                    {foodItems.map(
+                      (item) =>
+                        item.IsRegular &&
+                        item.AvailableTime == 3 && (
+                          <div
+                            key={item.id}
+                            className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4 cursor-pointer"
+                            onClick={() => handleItemClick(item)}
+                          >
+                            <div className="h-48 w-full bg-gray-300 rounded-lg"></div>
+                            <p className="text-center mt-2">{item.Item}</p>
+                          </div>
+                        )
+                    )}
                   </div>
                   <button className="bfScrollRight absolute right-0 bg-gray-500 text-white p-2 mr-5 mb-7 rounded-full focus:outline-none">
                     &gt;
