@@ -77,7 +77,13 @@ export async function middleware(request: NextRequest) {
             return NextResponse.redirect
                 (new URL('/', request.url));
         }
-
+    }
+    else if (request.nextUrl.pathname.startsWith("/cart") ||
+        request.nextUrl.pathname.startsWith("/checkout")) {
+        const cart = localStorage.getItem("cart");
+        if (!cart) {
+            return NextResponse.redirect(new URL('/', request.url));
+        }
     }
     else {
         return NextResponse.next();
