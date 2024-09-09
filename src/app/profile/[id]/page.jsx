@@ -103,11 +103,12 @@ export default function Page({ params }) {
     try {
       const res = await fetch("https://swiftshipbackend-production.up.railway.app/getcompletedorders",
         {
-          method: "GET",
+          method: "POST",
           headers: {
 
             "Content-Type": "application/json"
-          }
+          },
+          body: JSON.stringify({ "id": Number(params.id) })
         }
       );
       if (res.status !== 200) {

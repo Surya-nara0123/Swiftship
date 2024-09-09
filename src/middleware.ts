@@ -69,6 +69,16 @@ export async function middleware(request: NextRequest) {
             return NextResponse.redirect(new URL('/login', request.url));
         }
     }
+    else if (request.nextUrl.pathname.startsWith("/login") ||
+        request.nextUrl.pathname.startsWith("/signup") ||
+        request.nextUrl.pathname.startsWith("/vendorob")) {
+        const token = request.cookies.get("token")?.value;
+        if (token) {
+            return NextResponse.redirect
+                (new URL('/', request.url));
+        }
+
+    }
     else {
         return NextResponse.next();
     }

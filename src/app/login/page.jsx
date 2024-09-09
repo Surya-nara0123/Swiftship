@@ -36,6 +36,7 @@ const Page = () => {
     });
     const body = await res.json();
     if (res.status !== 200) {
+      toast.error("Wrong Credentials");
       setLoading(false);
       //(body);
       return;
