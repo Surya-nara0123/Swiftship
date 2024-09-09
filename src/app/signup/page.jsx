@@ -19,7 +19,6 @@ const Page = () => {
       "name": user.username,
       "email": user.email,
       "mobile": Number(user.mobile),
-      "user_type": 1,
       "password": user.password
     };
     const res = await fetch ("https://swiftshipbackend-production.up.railway.app/createuser", {
