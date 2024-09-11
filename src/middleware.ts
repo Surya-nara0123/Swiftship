@@ -50,14 +50,12 @@ export async function middleware(request: NextRequest) {
 
             const secret = new TextEncoder().encode("secret");
             const { payload } = await jwtVerify(token, secret);
-            if (!payload) {
-                //("Invalid Token");
+            // console.log(payload)
+            if(request.nextUrl.pathname.replace("/admin/","") != payload.id || payload.user_type != 2){
                 return NextResponse.redirect(new URL('/', request.url));
             }
-            if (payload.user_type != 2) {
-                toast.error("Invalid User Type");
-                // await sleep(2000);
-                // //("Invalid User Type");
+            if (!payload) {
+                //("Invalid Token");
                 return NextResponse.redirect(new URL('/', request.url));
             }
 
