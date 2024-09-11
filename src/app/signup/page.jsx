@@ -21,7 +21,7 @@ const Page = () => {
       "mobile": Number(user.mobile),
       "password": user.password
     };
-    const res = await fetch ("https://swiftshipbackend-production.up.railway.app/createuser", {
+    const res = await fetch ("https://swiftshipbackend-production.up.railway.app/createnormaluser", {
       method: "POST",
       headers: {
         

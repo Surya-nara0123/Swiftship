@@ -50,7 +50,6 @@ export async function middleware(request: NextRequest) {
 
             const secret = new TextEncoder().encode("secret");
             const { payload } = await jwtVerify(token, secret);
-            // console.log(payload)
             if(request.nextUrl.pathname.replace("/admin/","") != payload.id || payload.user_type != 2){
                 return NextResponse.redirect(new URL('/', request.url));
             }
