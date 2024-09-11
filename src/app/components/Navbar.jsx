@@ -233,7 +233,7 @@ const Navbar = () => {
                 </li>
               </>
             ) : (
-              window.location.href.includes("profile") || window.location.href.includes("profile") && (
+              window.location.href.includes("profile") || window.location.href.includes("admin") && (
                 <NavBarItem key={"Logout"} title={"Logout"} />
               )
             )}
