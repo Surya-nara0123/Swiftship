@@ -1,7 +1,11 @@
 import { NextResponse, NextRequest } from "next/server";
-import { cookies } from 'next/headers';
 
 export function POST(request: NextRequest) {
-    cookies().delete('token');
-    return NextResponse.json({ message: "Success" }, { status: 200 });
+    try {
+        const response = NextResponse.json({ message: "Success" }, { status: 200 });
+        response.cookies.set('token', '', { expires: new Date(0) });
+        return response;
+    } catch (e) {
+        return NextResponse.json({ message: "Failed" }, { status: 400 });
+    }
 }

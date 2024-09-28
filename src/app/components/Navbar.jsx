@@ -30,7 +30,7 @@ const NavBarItem = ({ title, classprops, userName }) => {
         } else if (title === "Account") {
           // //(userName);
           window.location.href = `/profile/${userName}`;
-        } else if( title == "Logout"){
+        } else if (title == "Logout") {
           axios.post("/api/logout").then((res) => {
             if (res.status === 200) {
               toast.success("Logged out successfully");
@@ -48,7 +48,11 @@ const NavBarItem = ({ title, classprops, userName }) => {
         <AiOutlineUser className="mr-1" size={30} />
       ) : title === "Logout" ? (
         <>
-          <AiOutlineLogout className="mr-1 lg: hidden" size={30} color="black" />
+          <AiOutlineLogout
+            className="mr-1 lg: hidden"
+            size={30}
+            color="black"
+          />
           <AiOutlineLogout className="mr-1 " size={30} />
         </>
       ) : (
@@ -173,7 +177,8 @@ const Navbar = () => {
             </li>
           </>
         ) : (
-          window.location.href.includes("profile") && (
+          (window.location.href.includes("profile") ||
+            window.location.href.includes("admin")) && (
             <NavBarItem key={"Logout"} title={"Logout"} />
           )
         )}
@@ -233,9 +238,10 @@ const Navbar = () => {
                 </li>
               </>
             ) : (
-              window.location.href.includes("profile") || window.location.href.includes("admin") && (
+              window.location.href.includes("profile") ||
+              (window.location.href.includes("admin") && (
                 <NavBarItem key={"Logout"} title={"Logout"} />
-              )
+              ))
             )}
           </ul>
         )}

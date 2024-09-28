@@ -3,8 +3,12 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "../components/Navbar.jsx";
 import axios from "axios";
+import { CSpinner } from "@coreui/react";
+import "@coreui/coreui/dist/css/coreui.min.css";
+import { toast } from "sonner";
 
 const Page = () => {
+  const [isLoading, setIsLoading] = React.useState(false);
   const router = useRouter();
   const [user, setUser] = React.useState({
     email: "",
@@ -14,26 +18,31 @@ const Page = () => {
   });
 
   const onSignup = async () => {
+    setIsLoading(true);
     // //(user);
     const request = {
-      "name": user.username,
-      "email": user.email,
-      "mobile": Number(user.mobile),
-      "password": user.password
+      name: user.username,
+      email: user.email,
+      mobile: Number(user.mobile),
+      password: user.password,
     };
-    const res = await fetch ("https://swiftshipbackend-production.up.railway.app/createnormaluser", {
-      method: "POST",
-      headers: {
-        
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(request),
-    });
+    const res = await fetch(
+      "https://swiftshipbackend-production.up.railway.app/createnormaluser",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(request),
+      }
+    );
     const body = await res.json();
     if (res.status !== 200) {
       //(body);
       return;
     }
+    toast.success("User created successfully");
+    setIsLoading(false);
     //("User created successfully");
     window.location.href = "/login";
   };
@@ -72,12 +81,20 @@ const Page = () => {
             onChange={(e) => setUser({ ...user, password: e.target.value })}
             placeholder="Password"
           />
-          <div
-            className="p-2 m-2 bg-red-500 text-white rounded-2xl px-20 mt-5 cursor-pointer hover:bg-red-400"
-            onClick={onSignup}
-          >
-            Sign up
-          </div>
+
+          {!isLoading ? (
+            <div
+              className="p-2 m-2 bg-red-500 text-white rounded-2xl px-20 mt-5 cursor-pointer hover:bg-red-400"
+              onClick={onSignup}
+            >
+              Sign up
+            </div>
+          ) : (
+            <CSpinner
+              color="primary"
+              style={{ width: "4rem", height: "4rem" }}
+            />
+          )}
         </div>
       </div>
     </div>

@@ -166,7 +166,6 @@ export default function Page({ params }) {
           setFilteredFoodItems((prevItems) => [...prevItems, item]);
           setIsModalOpen(false);
         }
-
       } catch (error) {
         //(error);
       }
@@ -207,7 +206,6 @@ export default function Page({ params }) {
           );
           setIsModalOpen(false);
         }
-
       } catch (error) {
         //(error);
       }
@@ -230,7 +228,6 @@ export default function Page({ params }) {
         {
           method: "POST",
           headers: {
-
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ foodItemID: editingItem.UID }),
@@ -254,7 +251,7 @@ export default function Page({ params }) {
     <div>
       <Navbar />
       <div className="flex flex-col items-left justify-left min-h-screen pt-40 pb-20 px-10 bg-gray-100">
-        <div className="text-3xl font-bold">{"Rishabh's Food Court"}</div>
+        <div className="text-3xl font-bold">{user.name}</div>
         <div className="text-5xl font-bold mt-5">Admin Dashboard</div>
         <div className="mb-10 mt-5 flex items-start gap-4">
           <button
@@ -264,7 +261,9 @@ export default function Page({ params }) {
             Check Paid Orders
           </button>
           <button
-            onClick={() => (window.location.href = `/vendorincoming/${params.id}`)}
+            onClick={() =>
+              (window.location.href = `/vendorincoming/${params.id}`)
+            }
             className="border-2 border-red-500 text-red-500 font-bold py-10 px-8 text-xl rounded-lg bg-white hover:bg-red-500 hover:text-white w-full max-w-lg"
           >
             Check Unpaid Orders
@@ -301,8 +300,9 @@ export default function Page({ params }) {
                 </h1>
                 <div className="flex gap-4">
                   <button
-                    className={`text-lg font-bold ${foodItem.IsAvailable ? "bg-green-500" : "bg-gray-500"
-                      } text-white rounded-lg px-4 py-1 hover:bg-green-600`}
+                    className={`text-lg font-bold ${
+                      foodItem.IsAvailable ? "bg-green-500" : "bg-gray-500"
+                    } text-white rounded-lg px-4 py-1 hover:bg-green-600`}
                     onClick={() => handleToggleAvailability(foodItem)}
                   >
                     {foodItem.IsAvailable ? "Available" : "Unavailable"}
@@ -412,6 +412,4 @@ export default function Page({ params }) {
       </div>
     </div>
   );
-
-
 }

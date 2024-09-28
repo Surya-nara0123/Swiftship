@@ -5,8 +5,11 @@ import NavbarLogin from "../components/NavbarLogin";
 import axios from "axios";
 import { Button } from "../../components/ui/button";
 import { toast } from "sonner";
+import { CSpinner } from "@coreui/react";
+import "@coreui/coreui/dist/css/coreui.min.css";
 
 export default function Page() {
+  const [isLoading, setIsLoading] = useState(false);
   const [userName, setUserName] = useState("");
   const [cart, setCart] = useState([]);
   const [price, setPrice] = useState(0);
@@ -14,15 +17,12 @@ export default function Page() {
 
   const getUserName = async () => {
     try {
-      const res = await fetch("/api/getToken",
-        {
-          method: "POST",
-          headers: {
-        
-            "Content-Type": "application/json"
-          }
-        }
-      );
+      const res = await fetch("/api/getToken", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       if (res.status !== 200) {
         setUserName("");
         // //(res);
@@ -44,8 +44,8 @@ export default function Page() {
   useEffect(() => {
     loadCart();
     getUserName();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-}, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     updatePricesCart(cart);
@@ -53,14 +53,16 @@ export default function Page() {
 
   const updatePricesCart = async () => {
     if (cart.length === 0) return;
-    const res = await fetch("https://swiftshipbackend-production.up.railway.app/getFooditems")
-    const data = await res.json()
+    const res = await fetch(
+      "https://swiftshipbackend-production.up.railway.app/getFooditems"
+    );
+    const data = await res.json();
     //(data["food_items"])
     for (let item of cart) {
       for (let food_item of data["food_items"]) {
         //(item.name, food_item.Item)
         if (item.name === food_item.Item) {
-          setRest_id(food_item.RestuarantId)
+          setRest_id(food_item.RestuarantId);
           //(food_item.RestuarantId)
           item.price = food_item.Price;
         }
@@ -68,7 +70,7 @@ export default function Page() {
     }
     setCart(cart);
     calculateTotalPrice(cart);
-  }
+  };
 
   const loadCart = () => {
     // Example items for demonstration
@@ -102,17 +104,19 @@ export default function Page() {
   };
 
   const addOrderToDatabase = async (isCash) => {
-    let res = await fetch("https://swiftshipbackend-production.up.railway.app/getuserid", {
-      method: "POST",
-      headers: {
-        
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name: userName }),
-    });
+    let res = await fetch(
+      "https://swiftshipbackend-production.up.railway.app/getuserid",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name: userName }),
+      }
+    );
     let data = await res.json();
     let orderDetails = [];
-    for(let item of cart){
+    for (let item of cart) {
       let orderDetail = {};
       orderDetail.item = item.name;
       orderDetail.quantity = item.count;
@@ -120,23 +124,22 @@ export default function Page() {
     }
     //(orderDetails);
     const order = {
-      user_id:data.uid,
+      user_id: data.uid,
       rest_id: rest_id,
-      is_paid: isCash ? false : true,
-      is_cash: isCash,
       timestamp: new Date().toISOString(),
-      order_status: isCash ? 1 : 2,
       order_items: orderDetails,
     };
     //(order);
-    res = await fetch("https://swiftshipbackend-production.up.railway.app/createorder", {
-      method: "POST",
-      headers: {
-        
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(order),
-    });
+    res = await fetch(
+      "https://swiftshipbackend-production.up.railway.app/createorder",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(order),
+      }
+    );
     if (!res) {
       alert("Server error. Please try again later.");
       return;
@@ -149,7 +152,7 @@ export default function Page() {
     data = await res.json();
     //(data);
     localStorage.setItem("cart", JSON.stringify([]));
-    window.location.href = `/track/${data["order"]+1234567890}`;
+    window.location.href = `/track/${data["order"] + 1234567890}`;
   };
 
   const makePayment = async () => {
@@ -163,8 +166,9 @@ export default function Page() {
     const response = await fetch("/api/razorpay", {
       method: "POST",
       headers: {
-         "Content-Type": "application/json" },
-      body: JSON.stringify({ amount: price })
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ amount: price }),
     });
     const data = await response.json();
 
@@ -181,11 +185,8 @@ export default function Page() {
       order_id: data.id,
       description: "Bill for your order",
       handler: async function (response) {
-        // alert(response.razorpay_payment_id);
-        // alert(response.razorpay_order_id);
-        // alert(response.razorpay_signature);
-        // if payment is successful, add the order to the  clear the cart and redirect to track page
         addOrderToDatabase(false);
+        setIsLoading(false);
       },
       prefill: {
         name: "Surya Narayanan",
@@ -197,8 +198,6 @@ export default function Page() {
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
   };
-
-
 
   return (
     <div className="gradient-bg2 items-left justify-center">
@@ -249,17 +248,19 @@ export default function Page() {
           <div className="mt-4">
             <div className="font-light mb-4">Final Bill Amount: ₹{price}</div>
             <div className="flex flex-col gap-4 md:flex-row md:gap-6 mt-5">
-              <Button
-                className="bg-red-500 text-white rounded-2xl cursor-pointer hover:bg-red-400"
-                onClick={makePayment}
-              >
-                Proceed to Payment
-              </Button>
-              <Button className="bg-gray-500 text-white rounded-2xl cursor-pointer hover:bg-gray-400">
-                <div className="block w-full text-center" onClick={()=>addOrderToDatabase(true)}>
-                  Pay with Cash
-                </div>
-              </Button>
+              {isLoading ? (
+                <CSpinner color="primary" />
+              ) : (
+                <Button
+                  className="bg-red-500 text-white rounded-2xl cursor-pointer hover:bg-red-400"
+                  onClick={() => {
+                    setIsLoading(true);
+                    makePayment();
+                  }}
+                >
+                  Proceed to Payment
+                </Button>
+              )}
             </div>
           </div>
         </div>
