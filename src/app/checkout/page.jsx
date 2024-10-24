@@ -178,7 +178,7 @@ export default function Page() {
     }
 
     var options = {
-      key: process.env.RAZORPAY_KEY, // Enter the Key ID generated from the Dashboard
+      key: "", // Enter the Key ID generated from the Dashboard
       name: "Rishabh's Canteen",
       currency: data.currency,
       amount: price * 100,
