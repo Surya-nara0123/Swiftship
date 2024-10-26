@@ -33,6 +33,7 @@ const NavBarItem = ({ title, classprops, userName }) => {
         } else if (title == "Logout") {
           axios.post("/api/logout").then((res) => {
             if (res.status === 200) {
+              console.log(res);
               toast.success("Logged out successfully");
               window.location.href = "/";
             } else {
