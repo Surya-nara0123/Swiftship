@@ -162,31 +162,52 @@ export default function Page() {
       alert("Razorpay SDK Failed to load");
       return;
     }
+    console.log(cart);
+    let orderDetails = [];
+    for (let item of cart) {
+      let orderDetail = {};
+      orderDetail.item = item.name;
+      orderDetail.quantity = item.count;
+      orderDetails.push(orderDetail);
+    }
+    const res1 = await fetch(
+      "https://swiftshipbackend-production.up.railway.app/razorpay",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(
+          {
+            user_id: 123456,
+            order_items: orderDetails,
+          }
+        ),
+      }
+    );
+    const data1 = await res1.json();
+    console.log(data1);
 
-    const response = await fetch("/api/razorpay", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ amount: price }),
-    });
-    const data = await response.json();
-
-    if (!data) {
+    if (!data1) {
       alert("Server error. Please try again later.");
       return;
     }
 
     var options = {
-      key: "", // Enter the Key ID generated from the Dashboard
+      key: data1.key,
       name: "Rishabh's Canteen",
-      currency: data.currency,
-      amount: price * 100,
-      order_id: data.id,
+      // currency: data1["options"].currency,
+      // amount: price * 10000,
+      order_id: data1["options"].id,
       description: "Bill for your order",
       handler: async function (response) {
         addOrderToDatabase(false);
         setIsLoading(false);
+      },
+      modal: {
+        ondismiss: function () {
+          setIsLoading(false);
+        },
       },
       prefill: {
         name: "Surya Narayanan",
