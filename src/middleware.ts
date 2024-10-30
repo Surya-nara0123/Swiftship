@@ -1,96 +1,55 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { jwtVerify } from 'jose';
-import { toast } from 'sonner';
 
 export async function middleware(request: NextRequest) {
-    if (request.nextUrl.pathname.startsWith("/cart") ||
-        request.nextUrl.pathname.startsWith("/checkout") ||
-        request.nextUrl.pathname.startsWith("/track") ||
-        request.nextUrl.pathname.startsWith("/profile")) {
+    const { pathname } = request.nextUrl;
+    const token = request.cookies.get("token")?.value;
+    const secret = new TextEncoder().encode("secret");
+
+    // Check paths requiring logged-in user
+    if (pathname.startsWith("/cart") || pathname.startsWith("/checkout") ||
+        pathname.startsWith("/track") || pathname.startsWith("/profile")) {
+
+        if (!token) return NextResponse.redirect(new URL('/login', request.url));
 
         try {
-            const token = request.cookies.get("token")?.value;
-
-            if (!token) {
-                //("Cookie Not Exists");
-                return NextResponse.redirect(new URL('/login', request.url));
-            }
-
-            const secret = new TextEncoder().encode("secret");
             const { payload } = await jwtVerify(token, secret);
-            if (!payload) {
-                //("Invalid Token");
-                return NextResponse.redirect(new URL('/login', request.url));
-            }
-            if ((payload.user_type != 1) && !(request.nextUrl.pathname.startsWith("/profile"))) {
-                //("Invalid User Type");
-                return NextResponse.redirect(new URL('/login', request.url));
-            }
 
-            // If the token is valid, continue with the request
+            if (!payload || (payload.user_type !== 1 && pathname !== "/profile")) {
+                return NextResponse.redirect(new URL('/login', request.url));
+            }
             return NextResponse.next();
-
         } catch (error) {
-            //(error);
             return NextResponse.redirect(new URL('/login', request.url));
         }
-    }
-    else if (request.nextUrl.pathname.startsWith("/vendor/") ||
-        request.nextUrl.pathname.startsWith("/vendorincoming") ||
-        request.nextUrl.pathname.startsWith("/admin")) {
+
+    // Check paths for vendor/admin access
+    } else if (pathname.startsWith("/vendor/") || pathname.startsWith("/vendorincoming") ||
+               pathname.startsWith("/admin")) {
+
+        if (!token) return NextResponse.redirect(new URL('/', request.url));
 
         try {
-            const token = request.cookies.get("token")?.value;
-
-            if (!token) {
-                //("Cookie Not Exists");
-                return NextResponse.redirect(new URL('/', request.url));
-            }
-
-            const secret = new TextEncoder().encode("secret");
             const { payload } = await jwtVerify(token, secret);
-            if(request.nextUrl.pathname.replace("/admin/","") != payload.id || payload.user_type != 2){
-                return NextResponse.redirect(new URL('/', request.url));
-            }
-            if (!payload) {
-                //("Invalid Token");
-                return NextResponse.redirect(new URL('/', request.url));
-            }
 
-            // If the token is valid, continue with the request
+            if (!payload || pathname.replace("/admin/", "") !== payload.id || payload.user_type !== 2) {
+                return NextResponse.redirect(new URL('/', request.url));
+            }
             return NextResponse.next();
-
         } catch (error) {
-            //(error);
             return NextResponse.redirect(new URL('/login', request.url));
         }
-    }
-    else if (request.nextUrl.pathname.startsWith("/login") ||
-        request.nextUrl.pathname.startsWith("/signup") ||
-        request.nextUrl.pathname.startsWith("/vendorob")) {
-        const token = request.cookies.get("token")?.value;
-        if (token) {
-            return NextResponse.redirect
-                (new URL('/', request.url));
-        }
-    }
-    else if (request.nextUrl.pathname.startsWith("/cart") ||
-        request.nextUrl.pathname.startsWith("/checkout")) {
-        const cart = localStorage.getItem("cart");
-        if (!cart) {
-            return NextResponse.redirect(new URL('/', request.url));
-        }
-    }
-    else {
-        return NextResponse.next();
+
+    // Redirect logged-in users from login/signup pages
+    } else if (pathname.startsWith("/login") || pathname.startsWith("/signup") || pathname.startsWith("/vendorob")) {
+        if (token) return NextResponse.redirect(new URL('/', request.url));
     }
 
-    // For other routes, continue the request
     return NextResponse.next();
 }
 
-// Apply middleware to the following routes
+// Middleware configuration for matching routes
 export const config = {
     matcher: [
         "/",
@@ -106,9 +65,4 @@ export const config = {
         "/vendorincoming/:path*",
         "/vendorob",
     ],
-}
-
-function sleep(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
+};
