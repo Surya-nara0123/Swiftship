@@ -2,6 +2,8 @@
 import { use, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
+import { createClient } from '@supabase/supabase-js'
+
 const Welcome = () => {
   const trendingScrollContainerRef = useRef(null);
   const shopsScrollContainerRef = useRef(null);
@@ -10,7 +12,24 @@ const Welcome = () => {
   const [modalContent, setModalContent] = useState({});
   const router = useRouter();
 
+  // get images from supabase
+  const [images, setImages] = useState([]);
+
   useEffect(() => {
+    const fetchImages = async () => {
+      const supabaseUrl = 'https://nxflyehglfvrxhphmngc.supabase.co'
+      const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im54Zmx5ZWhnbGZ2cnhocGhtbmdjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzAxMzY1OTAsImV4cCI6MjA0NTcxMjU5MH0.d5NR0Dk-2eRQKXmka7vK6Xg6q3UHFK9WwV4dbok9mX4"
+      const supabase = createClient(supabaseUrl, supabaseKey)
+      const { data } = supabase.storage.from('assets').getPublicUrl("insanePhoto.jpg");
+
+      // if (error) {
+      //   console.error("Error fetching images", error);
+      //   return;
+      // }
+      setImages(data);
+      console.log(data);
+    };
+    fetchImages();
     const handleScrollLeft = (containerRef) => {
       containerRef.current.scrollBy({
         left: -containerRef.current.clientWidth,
@@ -163,27 +182,24 @@ const Welcome = () => {
                   {foodItems.map(
                     (foodItem, index) =>
                       foodItem.IsRegular == false && (
-                        <>
+                        <div className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4" key={index}>
                           <div
-                            className="flex-shrink-0 w-64 sm:w-80 lg:w-1/4"
-                            key={index}
+                            className="h-48 w-full bg-gray-300 rounded-lg cursor-pointer text-black relative overflow-hidden"
+                            onClick={() => {
+                              handleItemClick(foodItem.Item, foodItem.Ingredients, foodItem.Price);
+                            }}
                           >
-                            <div
-                              className="h-48 w-full bg-gray-300 rounded-lg cursor-pointer text-black"
-                              onClick={() => {
-                                //(locationName(foodItem));
-                                handleItemClick(
-                                  foodItem.Item,
-                                  foodItem.Ingredients,
-                                  foodItem.Price
-                                );
-                              }}
-                            >
+                            <div className="absolute top-2 left-2 z-10">
                               {locationName(foodItem)}
                             </div>
-                            <p className="text-center mt-2">{foodItem.Item}</p>
+                            <img
+                              src={images.publicUrl}
+                              alt={foodItem.Item}
+                              className="h-full w-full object-cover"
+                            />
                           </div>
-                        </>
+                          <p className="text-center mt-2">{foodItem.Item}</p>
+                        </div>
                       )
                   )}
                 </div>

@@ -1,4 +1,4 @@
-import { NextResponse, NextRequest } from "next/server"
+import { NextResponse, NextRequest } from "next/server";
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 
@@ -6,16 +6,19 @@ export async function POST(request: NextRequest) {
     try {
         const body = await request.json();
         const token = jwt.sign(body.user, 'secret', { expiresIn: '1d' });
-        // //(request.url);
-        if(request.url.includes('localhost')) {
-            cookies().set('token', token, { httpOnly: true, path: '/', sameSite: 'lax', secure: true, maxAge: 7 * 60 * 60 * 24, domain: 'localhost' });
-        } else {
-            cookies().set('token', token, { httpOnly: true, path: '/', sameSite: 'lax', secure: true, maxAge: 7 * 60 * 60 * 24, domain: 'swiftship-nine.vercel.app' });
-        }
+        const isLocalhost = request.url.includes('localhost');
 
-        return NextResponse.json({ message: "Success" }, { status: 200 })
+        cookies().set('token', token, {
+            httpOnly: true,
+            path: '/',
+            sameSite: 'lax',
+            secure: !isLocalhost,
+            maxAge: 7 * 24 * 60 * 60,  // Adjusted for clarity
+            ...(isLocalhost ? {} : { domain: 'swiftship-nine.vercel.app' })
+        });
+
+        return NextResponse.json({ message: "Success" }, { status: 200 });
     } catch (error) {
-        //(error);
-        return NextResponse.json({ message: error }, { status: 500 })
+        return NextResponse.json({ message: "Error setting cookie" }, { status: 500 });
     }
 }

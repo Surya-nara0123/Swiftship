@@ -3,10 +3,9 @@ import { NextResponse, NextRequest } from "next/server";
 export function POST(request: NextRequest) {
     try {
         const response = NextResponse.json({ message: "Success" }, { status: 200 });
-        response.cookies.set('token', '', { expires: new Date(0) });
-        response.cookies.delete('token');
+        response.cookies.set('token', '', { expires: new Date(0), path: '/' }); // Ensure matching path for deletion
         return response;
-    } catch (e) {
-        return NextResponse.json({ message: "Failed" }, { status: 400 });
+    } catch (error) {
+        return NextResponse.json({ message: "Failed to log out" }, { status: 400 });
     }
 }
