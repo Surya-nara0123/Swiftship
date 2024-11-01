@@ -6,6 +6,15 @@ export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
     const token = request.cookies.get("token")?.value;
     const secret = new TextEncoder().encode("secret");
+    if(pathname.startsWith("/api/logout")) {
+        // Clear the token cookie
+        return NextResponse.redirect
+        ("/", {
+            headers: {
+                'Set-Cookie': 'token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Lax; Secure'
+            }
+        });
+    }
 
     // Check paths requiring logged-in user
     if (pathname.startsWith("/cart") || pathname.startsWith("/checkout") ||
