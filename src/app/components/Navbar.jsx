@@ -31,15 +31,30 @@ const NavBarItem = ({ title, classprops, userName }) => {
           // //(userName);
           window.location.href = `/profile/${userName}`;
         } else if (title == "Logout") {
-          axios.post("/api/logout").then((res) => {
+          fetch("/api/logout", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }).then((res) => {
             if (res.status === 200) {
-              console.log(res);
+              //(res);
               toast.success("Logged out successfully");
               // window.location.href = "/";
             } else {
               toast.error("Error logging out");
             }
-          });
+          }
+          );
+          // axios.post("/api/logout").then((res) => {
+          //   if (res.status === 200) {
+          //     console.log(res);
+          //     toast.success("Logged out successfully");
+          //     // window.location.href = "/";
+          //   } else {
+          //     toast.error("Error logging out");
+          //   }
+          // });
         }
       }}
     >
