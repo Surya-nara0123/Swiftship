@@ -114,9 +114,11 @@ export default function Page({ params }) {
       if (res.status !== 200) {
         setCompletedOrders([]);
         // //(res);
+
+        return;
       }
       const data = await res.json();
-      //(data);
+      console.log(data);
       setCompletedOrders(data.orders);
     } catch (error) {
       //(error);
