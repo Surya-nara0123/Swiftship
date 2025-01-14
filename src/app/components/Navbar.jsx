@@ -32,7 +32,7 @@ const NavBarItem = ({ title, classprops, userName }) => {
           window.location.href = `/profile/${userName}`;
         } else if (title == "Logout") {
           fetch("/api/logout", {
-            method: "DELETE",
+            method: "PATCH",
             headers: {
               "Content-Type": "application/json",
             },

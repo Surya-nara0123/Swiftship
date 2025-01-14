@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 
-export function DELETE(request: NextRequest) {
+export function PATCH(request: NextRequest) {
     try {
         // request.cookies.delete('token'); // Ensure matching path for deletion
         const response = NextResponse.json({ message: "Logged out" }, { status: 200 });
