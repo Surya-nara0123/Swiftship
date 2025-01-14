@@ -8,7 +8,8 @@ export async function POST(request: NextRequest) {
         const token = jwt.sign(body.user, 'secret', { expiresIn: '1d' });
         const isLocalhost = request.url.includes('localhost');
 
-        cookies().set('token', token, {
+        const response = NextResponse.json({ message: "Success" }, { status: 200 });
+        response.cookies.set('token', token, {
             // httpOnly: true,
             path: '/',
             sameSite: 'lax',
@@ -17,7 +18,7 @@ export async function POST(request: NextRequest) {
             ...(isLocalhost ? {} : { domain: 'swiftship-nine.vercel.app' })
         });
 
-        return NextResponse.json({ message: "Success" }, { status: 200 });
+        return response;
     } catch (error) {
         return NextResponse.json({ message: "Error setting cookie" }, { status: 500 });
     }
