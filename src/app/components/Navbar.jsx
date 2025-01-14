@@ -40,7 +40,7 @@ const NavBarItem = ({ title, classprops, userName }) => {
             if (res.status === 200) {
               //(res);
               toast.success("Logged out successfully");
-              window.location.href = "/";
+              // window.location.href = "/";
             } else {
               toast.error("Error logging out");
             }
