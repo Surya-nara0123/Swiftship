@@ -7,7 +7,7 @@ export function POST(request: NextRequest) {
         console.log(response.cookies.getAll(), request.cookies.getAll());
         response.cookies.delete('token'); // Ensure matching path for deletion
         console.log(response.cookies.getAll()), request.cookies.getAll();
-
+        console.log("Response cookies after deleting cookie", response.cookies.getAll());
         return response;
     } catch (error) {
         return NextResponse.json({ message: "Failed to log out" }, { status: 400 });

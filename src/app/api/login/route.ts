@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
         const isLocalhost = request.url.includes('localhost');
 
         cookies().set('token', token, {
-            httpOnly: true,
+            // httpOnly: true,
             path: '/',
             sameSite: 'lax',
             secure: !isLocalhost,
