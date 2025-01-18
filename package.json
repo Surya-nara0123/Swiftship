@@ -29,7 +29,7 @@
     "jose": "^5.7.0",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.400.0",
-    "mongoose": "^8.1.1",
+    "mongoose": "^8.9.5",
     "mysql": "^2.18.1",
     "mysql2": "^3.10.1",
     "net": "^1.0.2",
