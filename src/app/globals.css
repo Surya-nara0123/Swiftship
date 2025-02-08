@@ -1,0 +1,149 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 224 71.4% 4.1%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 224 71.4% 4.1%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 224 71.4% 4.1%;
+
+    --primary: 220.9 39.3% 11%;
+    --primary-foreground: 210 20% 98%;
+
+    --secondary: 220 14.3% 95.9%;
+    --secondary-foreground: 220.9 39.3% 11%;
+
+    --muted: 220 14.3% 95.9%;
+    --muted-foreground: 220 8.9% 46.1%;
+
+    --accent: 220 14.3% 95.9%;
+    --accent-foreground: 220.9 39.3% 11%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 20% 98%;
+
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 224 71.4% 4.1%;
+
+    --radius: 0.5rem;
+  }
+
+  /* .dark {
+    --background: 224 71.4% 4.1%;
+    --foreground: 210 20% 98%;
+
+    --card: 224 71.4% 4.1%;
+    --card-foreground: 210 20% 98%;
+
+    --popover: 224 71.4% 4.1%;
+    --popover-foreground: 210 20% 98%;
+
+    --primary: 210 20% 98%;
+    --primary-foreground: 220.9 39.3% 11%;
+
+    --secondary: 215 27.9% 16.9%;
+    --secondary-foreground: 210 20% 98%;
+
+    --muted: 215 27.9% 16.9%;
+    --muted-foreground: 217.9 10.6% 64.9%;
+
+    --accent: 215 27.9% 16.9%;
+    --accent-foreground: 210 20% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 20% 98%;
+
+    --border: 215 27.9% 16.9%;
+    --input: 215 27.9% 16.9%;
+    --ring: 216 12.2% 83.9%;
+  } */
+}
+.gradient-bg-welcome {
+  background-color: rgba(243, 243, 243, 0.3);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.gradient-bg-services {
+  background-color: #f4f4f4;
+}
+
+.gradient-bg-transactions {
+  background-color: #0f0e13;
+}
+
+.gradient-bg1 {
+  background-color: hsla(0, 100%, 50%, 1);
+}
+
+.gradient-bg2 {
+  background-color: #f4f4f4;
+}
+
+.gradient-bg-footer {
+  background-color: #f6f6f6;
+}
+
+.red-glassmorphism {
+  background: rgba(255, 0, 0, 0.4);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+}
+
+.blue-glassmorphism {
+  background: rgb(39, 51, 89, 0.4);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+/* white glassmorphism */
+.white-glassmorphism {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.eth-card {
+  background-color: #a099ff;
+}
+
+.text-gradient {
+  background-color: #fff;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-bg3 {
+  background-color: hsla(359, 0%, 66%, 0.9);
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
